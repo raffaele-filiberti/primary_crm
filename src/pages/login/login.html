@@ -1,0 +1,31 @@
+<ion-content>
+    <ion-grid>
+        <ion-row align-items-center>
+            <ion-col col-lg-4 offset-lg-4>
+                <div>
+                    <h1>Login</h1>
+                    <p>insert your credentials</p>
+                    <ion-list>
+
+                        <ion-item>
+                            <ion-label floating>Email</ion-label>
+                            <ion-input [(ngModel)]="email" type="text" value=""></ion-input>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label floating>Password</ion-label>
+                            <ion-input [(ngModel)]="password" type="password" value=""></ion-input>
+                        </ion-item>
+
+                        <ion-item padding>
+                            <button ion-button color="primary" block (click)="login()">Sign In</button>
+                        </ion-item>
+
+                    </ion-list>
+                </div>
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

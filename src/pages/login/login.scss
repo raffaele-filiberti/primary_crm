@@ -1,0 +1,29 @@
+page-login {
+    .content-md {
+    background: #fafafa;
+}
+    .item-md {
+        padding: 0 16px;
+    &.item-block .item-inner {
+        padding-right: 0;
+    }
+    & .item-button {
+        height: 3.6rem;
+        font-size: 1.4rem;
+    }
+}
+    .label-md {
+        margin-right: 0;
+    }
+
+    ion-col > div {
+    background-color: #fff;
+    border: 1px solid #e6e9ee;
+    border-radius: 2px;
+    padding: 32px 32px 24px;
+  }
+
+  ion-row {
+      height: 100vh
+  }
+}
