@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt'
 import 'rxjs/add/operator/map';
 
 /*
@@ -11,8 +11,12 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class RoleServiceProvider {
 
-  constructor(public http: Http) {
-    console.log('Hello RoleServiceProvider Provider');
+  constructor(public http: AuthHttp) {
+  }
+
+  index() {
+    return this.http.get('https://multi-tenancy-crm.herokuapp.com/api/roles')
+      .map((res:any) => res.json());
   }
 
 }

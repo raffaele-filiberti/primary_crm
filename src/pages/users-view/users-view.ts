@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from "@angular/core";
+import {IonicPage, NavController, NavParams} from "ionic-angular";
+import {User} from "../../models/User";
+import {UsersEditPage} from "../users-edit/users-edit";
 
 /**
  * Generated class for the UsersViewPage page.
@@ -13,12 +15,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'users-view.html',
 })
 export class UsersViewPage {
+  user: User;
+  agency: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.user = navParams.get('user');
+    this.agency = JSON.parse(localStorage.getItem('agency'));
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UsersViewPage');
+  }
+
+  edit () {
+    this.navCtrl.push(UsersEditPage, {
+      user: this.user
+    })
   }
 
 }

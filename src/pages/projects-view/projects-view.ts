@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Project} from "../../models/Project";
+import {ProjectsEditPage} from "../projects-edit/projects-edit";
 
 /**
  * Generated class for the ProjectsViewPage page.
@@ -13,12 +15,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'projects-view.html',
 })
 export class ProjectsViewPage {
+  customer_id: number;
+  project: Project;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.customer_id = navParams.get( 'customer_id' );
+    this.project = navParams.get( 'project' );
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProjectsViewPage');
+    //
   }
 
+  edit() {
+    this.navCtrl.push( ProjectsEditPage, {
+      customer_id: this.customer_id,
+      project: this.project
+    } );
+  }
 }

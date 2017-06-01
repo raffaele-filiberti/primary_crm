@@ -24,12 +24,12 @@ export class CustomerServiceProvider {
     return this.http.get(url).map((res:any) => res.json());
   }
 
-  update(customer_id:number, description:string, name:string){
+  update(customer_id:number, name:string,description:string){
     let url: string = "https://multi-tenancy-crm.herokuapp.com/api/customers/"+ customer_id;
     return this.http.put(url, JSON.stringify({description:description, name:name})).map((res:any) => res.json());
   }
 
-  store(description:string, name:string){
+  store(name:string, description:string){
     let url: string = "https://multi-tenancy-crm.herokuapp.com/api/customers";
     return this.http.post(url, JSON.stringify({description:description, name:name})).map((res:any)=>res.json());
   }

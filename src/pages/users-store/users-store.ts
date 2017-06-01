@@ -18,10 +18,10 @@ import {CustomerServiceProvider} from "../../providers/customer-service/customer
 })
 export class UsersStorePage {
   user: User;
-  customer_id: number;
-  role_id: number;
   customers: Array<Customer>;
-  // roles: Array<Role>;
+  roles: Array<Role>;
+  old_customer: Customer;
+  old_role: Role;
   loader: any;
 
   constructor(public navCtrl: NavController,
@@ -29,37 +29,38 @@ export class UsersStorePage {
               public loadingCtrl: LoadingController,
               private UserService: UsersServiceProvider,
               private CustomerService: CustomerServiceProvider,
-              private RoleService: RoleServiceProvider,) {
+              private RoleService: RoleServiceProvider) {
     this.user = new User();
-
+    this.old_role = new Role();
+    this.old_customer = new Customer();
   }
 
-  ngAfterViewInit() {
+  ionViewDidLoad() {
     this.presentLoading();
     this.CustomerService.index()
       .subscribe(
         data => {
           this.customers = data.customers;
-          this.loader.dismiss();
         },
         error => {
           console.log(error);
         },
         () => console.log('Customer List Completed')
-      )
-  }
+      );
 
-  store() {
-    this.UserService.store(this.user.name, this.user.email, this.user.password, this.role_id, this.user.first_name, this.user.last_name, this.user.cell_phone, this.user.fax, this.user.address, this.user.postcode, this.user.province, this.user.nation, this.customer_id)
+    this.RoleService.index()
       .subscribe(
         data => {
-          this.navCtrl.pop();
+          this.roles = data.roles;
         },
         error => {
-
+          console.log(error);
         },
-        () => console.log('User Created Successfully')
-      )
+        () => console.log('Role List Completed')
+      );
+
+    this.loader.dismiss();
+
   }
 
   presentLoading() {
@@ -67,6 +68,19 @@ export class UsersStorePage {
       content: "Loading..."
     });
     this.loader.present();
+  }
+
+  store() {
+    this.UserService.store(this.user.name, this.user.email, this.user.password, this.old_role.id, this.user.first_name, this.user.last_name, this.user.cell_phone, this.user.fax, this.user.address, this.user.postcode, this.user.province, this.user.nation, this.old_customer.id)
+      .subscribe(
+        data => {
+          this.navCtrl.pop();
+        },
+        error => {
+          console.log(error);
+        },
+        () => console.log('User Created Successfully')
+      )
   }
 
 }

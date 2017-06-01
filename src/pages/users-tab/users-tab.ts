@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
-import { Events } from 'ionic-angular';
+import {Component, } from '@angular/core';
+import { Events, IonicPage } from 'ionic-angular';
 import {UsersPage} from "../users/users";
 import {SubscribersPage} from "../subscribers/subscribers";
-import {ModalController} from "ionic-angular";
 
+@IonicPage({
+  segment: 'users'
+})
 @Component({
   templateUrl: 'users-tab.html'
 })

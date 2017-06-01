@@ -1,18 +1,103 @@
 <!--
-  Generated template for the UsersEditPage page.
+  Generated template for the UsersStorePage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<script src="../../../../../Documents/GitHub/CRM_Client/src/app/Components/user-edit/user-edit.component.ts"></script>
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>users_edit</ion-title>
-  </ion-navbar>
+    <ion-toolbar>      <button ion-button icon-only menuToggle>        <ion-icon name="menu"></ion-icon>      </button>
+    <ion-title>Edit user</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="edit()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input [(ngModel)]="user.name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input [(ngModel)]="user.password" type="password"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input [(ngModel)]="user.email" type="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Customer</ion-label>
+      <ion-select [ngModel]="user?.customers[0]?.id" (ngModelChange)="addCustomer($event)">
+        <ion-option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Role</ion-label>
+      <ion-select [ngModel]="user?.roles[0]?.id" (ngModelChange)="addRole($event)">
+        <ion-option *ngFor="let role of roles" [value]="role.id">{{role.display_name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label floating>First Name</ion-label>
+      <ion-input [(ngModel)]="user.first_name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Last Name</ion-label>
+      <ion-input [(ngModel)]="user.last_name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Address</ion-label>
+      <ion-input [(ngModel)]="user.address" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>City</ion-label>
+      <ion-input [(ngModel)]="user.city" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Province</ion-label>
+      <ion-input [(ngModel)]="user.province" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Postcode</ion-label>
+      <ion-input [(ngModel)]="user.postcode" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Nation</ion-label>
+      <ion-input [(ngModel)]="user.nation" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Cell Phone</ion-label>
+      <ion-input [(ngModel)]="user.cell_phone" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Fax</ion-label>
+      <ion-input [(ngModel)]="user.fax" type="text"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
 
 </ion-content>

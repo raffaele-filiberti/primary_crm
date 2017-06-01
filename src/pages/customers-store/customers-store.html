@@ -6,13 +6,28 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>customers_store</ion-title>
-  </ion-navbar>
+    <ion-toolbar>      <button ion-button icon-only menuToggle>        <ion-icon name="menu"></ion-icon>      </button>
+    <ion-title>New Customer</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="store()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input [(ngModel)]="customer.name" type="text"></ion-input>
+    </ion-item>
 
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-input [(ngModel)]="customer.description" type="text"></ion-input>
+    </ion-item>
+  </ion-list>
 </ion-content>

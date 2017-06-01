@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Customer} from "../../models/User";
+import {CustomersEditPage} from "../customers-edit/customers-edit";
 
 /**
  * Generated class for the CustomersViewPage page.
@@ -13,12 +15,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'customers-view.html',
 })
 export class CustomersViewPage {
+  customer: Customer;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.customer = navParams.get('customer');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CustomersViewPage');
+    //
+  }
+
+  edit(customer:Customer) {
+    this.navCtrl.push(CustomersEditPage, {
+      customer: customer
+    });
   }
 
 }

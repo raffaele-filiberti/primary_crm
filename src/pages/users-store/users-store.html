@@ -6,14 +6,14 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+    <ion-toolbar>      <button ion-button icon-only menuToggle>        <ion-icon name="menu"></ion-icon>      </button>
     <ion-title>New user</ion-title>
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="store()">
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 
 </ion-header>
 
@@ -38,20 +38,15 @@
 
     <ion-item>
       <ion-label floating>Customer</ion-label>
-      <ion-select [(ngModel)]="customer_id">
+      <ion-select [(ngModel)]="old_customer.id">
         <ion-option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Role</ion-label>
-      <ion-select [(ngModel)]="role_id">
-        <ion-option [value]=1>Admin</ion-option>
-        <ion-option [value]=2>Designer</ion-option>
-        <ion-option [value]=3>Creative Director</ion-option>
-        <ion-option [value]=4>Account Manager</ion-option>
-        <ion-option [value]=5>Marketing Manager</ion-option>
-        <ion-option [value]=6>Product Manager</ion-option>
+      <ion-select [(ngModel)]="old_role.id">
+        <ion-option *ngFor="let role of roles" [value]="role.id">{{role.display_name}}</ion-option>
       </ion-select>
     </ion-item>
 

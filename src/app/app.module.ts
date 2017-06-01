@@ -41,6 +41,18 @@ import { AvatarFirstCharPipe } from '../pipes/avatar-first-char/avatar-first-cha
 import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
 import { RoleServiceProvider } from '../providers/role-service/role-service';
 import {SubscribersPage} from "../pages/subscribers/subscribers";
+import {CustomersViewPage} from "../pages/customers-view/customers-view";
+import {CustomersStorePage} from "../pages/customers-store/customers-store";
+import {CustomersEditPage} from "../pages/customers-edit/customers-edit";
+import { ProjectsServiceProvider } from '../providers/project-service/project-service';
+import {ProjectsPage} from "../pages/projects/projects";
+import {ProjectsViewPage} from "../pages/projects-view/projects-view";
+import {ProjectsStorePage} from "../pages/projects-store/projects-store";
+import {ProjectsEditPage} from "../pages/projects-edit/projects-edit";
+import {TasksEditPage} from "../pages/tasks-edit/tasks-edit";
+import {TasksStorePage} from "../pages/tasks-store/tasks-store";
+import {TasksViewPage} from "../pages/tasks-view/tasks-view";
+import { TasksServiceProvider } from '../providers/tasks-service/tasks-service';
 
 
 export function getAuthHttp(http) {
@@ -69,6 +81,17 @@ export function getAuthHttp(http) {
     UsersViewPage,
     UsersTabPage,
     SubscribersPage,
+    CustomersViewPage,
+    CustomersStorePage,
+    CustomersEditPage,
+    ProjectsPage,
+    ProjectsViewPage,
+    ProjectsStorePage,
+    ProjectsEditPage,
+    TasksPage,
+    TasksEditPage,
+    TasksStorePage,
+    TasksViewPage,
 
     //Pipe
     AvatarFirstCharPipe
@@ -85,15 +108,26 @@ export function getAuthHttp(http) {
     MyApp,
     HomePage,
     LoginPage,
-    UsersPage,
-    CustomersPage,
     TasksPage,
     TemplatesPage,
+    UsersPage,
     UsersEditPage,
     UsersStorePage,
     UsersViewPage,
     UsersTabPage,
     SubscribersPage,
+    CustomersPage,
+    CustomersViewPage,
+    CustomersStorePage,
+    CustomersEditPage,
+    ProjectsPage,
+    ProjectsViewPage,
+    ProjectsStorePage,
+    ProjectsEditPage,
+    TasksPage,
+    TasksEditPage,
+    TasksStorePage,
+    TasksViewPage
   ],
   providers: [
     StatusBar,
@@ -104,7 +138,9 @@ export function getAuthHttp(http) {
     AuthProvider,
     UsersServiceProvider,
     CustomerServiceProvider,
-    RoleServiceProvider
+    RoleServiceProvider,
+    ProjectsServiceProvider,
+    TasksServiceProvider
   ]
 })
 export class AppModule {}

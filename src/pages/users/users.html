@@ -7,24 +7,36 @@
 <script src="../../../../../Documents/GitHub/CRM_Client/src/app/app.module.ts"></script>
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Users</ion-title>
-    <ion-buttons end>
+    <ion-toolbar>      <button ion-button icon-only menuToggle>        <ion-icon name="menu"></ion-icon>      </button>
+    <ion-title *ngIf="!toggled">Users</ion-title>
+    <ion-searchbar
+      *ngIf="toggled"
+      (ionInput)="getItems($event)"
+      (ionCancel)="cancelSearch($event)"
+      (ionClear) = "cancelSearch($event)"
+      [showCancelButton]="true"
+      [autocomplete]="true"
+      [animated]="true">
+    </ion-searchbar>
+    <ion-buttons end *ngIf="!toggled">
       <button ion-button icon-only color="royal" (click)="store()">
         <ion-icon name="person-add"></ion-icon>
       </button>
+      <button ion-button icon-only color="royal" (click)="toggleSearch()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
-
   <ion-list *ngIf="users">
 
     <ion-list-header>Users Active</ion-list-header>
 
-    <ion-item-sliding *ngFor="let user of users">
+    <ion-item-sliding *ngFor="let user of items">
       <ion-item (click)="view(user)">
         <ion-avatar item-start>
           {{ user.name | avatarfirstchar }}
@@ -37,10 +49,6 @@
         <button ion-button color="primary" (click)="edit(user)">
           <ion-icon name="brush"></ion-icon>
           Edit
-        </button>
-        <button ion-button color="light" (click)="archive(user)">
-          <ion-icon name="filing"></ion-icon>
-          Archive
         </button>
         <button ion-button color="danger" (click)="delete(user)">
           <ion-icon name="trash"></ion-icon>

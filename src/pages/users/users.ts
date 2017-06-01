@@ -20,20 +20,23 @@ import {UsersEditPage} from "../users-edit/users-edit";
 })
 export class UsersPage {
   users: Array<User>;
+  searchQuery: string = '';
+  items: Array<User>;
   loader: any;
-
+  toggled: boolean;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
               private UserService: UsersServiceProvider) {
-
+    this.toggled = false;
   }
 
   ionViewDidLoad() {
     this.events.subscribe('functionCall:loadUsers', eventData => {
       this.index();
-    });  }
+    });
+  }
 
   presentLoading() {
     this.loader = this.loadingCtrl.create({
@@ -49,6 +52,7 @@ export class UsersPage {
         data => {
           this.users = data.users;
           console.log(this.users);
+          this.initializeItems();
           this.loader.dismiss();
         },
         error => {
@@ -56,6 +60,34 @@ export class UsersPage {
         },
         () => console.log('Users List Complete')
       );
+  }
+
+  initializeItems() {
+    this.items = this.users
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.initializeItems();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.items = this.items.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  toggleSearch() {
+    this.toggled = this.toggled ? false : true;
+  }
+
+  cancelSearch() {
+    this.toggleSearch();
+    this.initializeItems();
   }
 
   store() {

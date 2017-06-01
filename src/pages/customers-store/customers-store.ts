@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {Customer} from "../../models/User";
+import {CustomerServiceProvider} from "../../providers/customer-service/customer-service";
 
 /**
  * Generated class for the CustomersStorePage page.
@@ -13,12 +15,42 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'customers-store.html',
 })
 export class CustomersStorePage {
+  customer: Customer;
+  loader: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public loadingCtrl: LoadingController,
+              private customerService: CustomerServiceProvider,
+              public navParams: NavParams,
+              public events: Events) {
+    this.customer = new Customer();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CustomersStorePage');
+    //
+  }
+
+  store() {
+    this.customerService.store(this.customer.name, this.customer.description)
+      .subscribe(
+        data => {
+          this.events.publish('functionCall:loadCustomers');
+          this.loader.dismiss();
+          this.navCtrl.pop();
+
+        },
+        error => {
+          console.log(error);
+        },
+        () => console.log('Customer Added Successfully')
+      )
+  }
+
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "Loading..."
+    });
+    this.loader.present();
   }
 
 }

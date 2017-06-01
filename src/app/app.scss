@@ -14,3 +14,78 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+.bar-button-md {
+  margin-left: 0.8rem !important;
+  margin-right: 0.8rem !important;
+}
+//}
+//ion-menu .content-md {
+//  background: #ffffff;
+//}
+//.content-md {
+//  background: #fafafa;
+//}
+//.bar-button-md {
+//  margin-left: 0.6rem;
+//  margin-right: 0.6rem;
+//}
+//.list-md .item-block .item-inner {
+//  border-bottom: none;
+//}
+//.item-md {
+//  border-bottom: 1px solid #dedede;
+//}
+//ion-list ion-item-sliding:nth-of-type(1) .item-md {
+//  border-top: 1px solid #dedede;
+//}
+//.list-md ion-item-options .button {
+//  margin-top: 0;
+//  margin-bottom: 0;
+//  height:100%;
+//}
+//ion-item-sliding:last-child ion-item-options {
+//  border-bottom: 0;
+//}
+
+//task segment
+ion-toolbar.segment-bar.toolbar.toolbar-md {
+  padding: 0;
+  align-items: flex-end;
+  min-height: 4.0rem;
+}
+.segment-md .segment-button.danger {
+  background-color: map_get($colors, danger);
+}
+.segment-md .segment-button.warning {
+  background-color: map_get($colors, warning);
+}
+.segment-md .segment-button.success {
+  background-color: map_get($colors, success);
+}
+//end task segment
+
+ion-note {
+  font-size: 12px;
+  align-self: flex-start;
+  margin-top: 14px;
+}
+
+.thumbnail {
+  height: 200px;
+  position: relative;
+  display: block;
+  width: 100%;
+  background: map_get($colors, primary);
+}
+.heading {
+  position: absolute;
+  bottom: 0;
+  left: 2em;
+  font-size: 2em;
+  line-height: 2.2em;
+  width: 100%;
+  font-weight: 700;
+  color: #fff;
+}

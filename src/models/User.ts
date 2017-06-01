@@ -7,19 +7,10 @@ export class User {
 }
 
 export class Customer {
-    constructor (public id:number, public name:string, public description: string,
-        public created_at: Date, public updated_at: Date, public pivot: User_Customer) {}
+    constructor (public id?:number, public name?:string, public description?: string,
+        public created_at?: Date, public updated_at?: Date) {}
 }
 
 export class Role{
-    constructor (public id:number, public name:string,public display_name:string, public description: string,
-        public created_at: Date, public updated_at: Date, public pivot: User_Role) {}
-}
-
-class User_Role{
-    constructor (public user_id:number, public role_id:number) {}
-}
-
-class User_Customer{
-    constructor (user_id:number, customer_id:number) {}
+    constructor (public id?:number, public name?:string,public display_name?:string, public description?: string, public created_at?: Date, public updated_at?: Date) {}
 }

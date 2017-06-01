@@ -1,18 +1,63 @@
-<!--
-  Generated template for the CustomersPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>customers</ion-title>
-  </ion-navbar>
+    <ion-toolbar>
+    <ion-title *ngIf="!toggled">Customers</ion-title>
+    <ion-searchbar
+      *ngIf="toggled"
+      (ionInput)="getItems($event)"
+      (ionCancel)="cancelSearch($event)"
+      (ionClear) = "cancelSearch($event)"
+      [showCancelButton]="true"
+      [autocomplete]="true"
+      [animated]="true">
+    </ion-searchbar>
+    <ion-buttons end *ngIf="!toggled">
+      <button ion-button icon-only color="royal" (click)="store()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal" (click)="toggleSearch()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+
+    </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
 
+<ion-content>
+  <ion-grid no-padding>
+    <ion-row align-items-center>
+      <ion-col col-lg-6 col-md-8 offset-lg-3 offset-md-2>
+        <p *ngIf="!customers?.length">No customers yet, please add <a (click)="store()">new</a> one!</p>
 
-<ion-content padding>
-
+        <ion-list *ngIf="customers?.length" padding-top>
+          <ion-item-sliding *ngFor="let customer of items">
+            <ion-item (click)="projects(customer)">
+              <h2>{{ customer.name }}</h2>
+              <p>{{ customer.description }}</p>
+              <ion-note item-end>{{ customer.created_at | date }}</ion-note>
+            </ion-item>
+            <ion-item-options side="right">
+              <button ion-button color="primary" (click)="view(customer)">
+                <ion-icon name="eye"></ion-icon>
+                View
+              </button>
+              <button ion-button color="primary" (click)="edit(customer)">
+                <ion-icon name="brush"></ion-icon>
+                Edit
+              </button>
+              <button ion-button color="light" (click)="archive(customer)">
+                <ion-icon name="filing"></ion-icon>
+                Archive
+              </button>
+              <button ion-button color="danger" (click)="delete(customer)">
+                <ion-icon name="trash"></ion-icon>
+                Delete
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

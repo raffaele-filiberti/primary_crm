@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, LoadingController, NavParams, Events} from 'ionic-angular';
+import {Customer} from "../../models/User";
+import {CustomerServiceProvider} from "../../providers/customer-service/customer-service";
 
 /**
  * Generated class for the CustomersEditPage page.
@@ -13,12 +15,44 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'customers-edit.html',
 })
 export class CustomersEditPage {
+  customer:Customer;
+  loader: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public loadingCtrl: LoadingController,
+              public navParams: NavParams,
+              private customerService: CustomerServiceProvider,
+              private events: Events){
+    this.customer = this.navParams.get('customer');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CustomersEditPage');
+    //
+  }
+
+
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "Loading..."
+    });
+    this.loader.present();
+  }
+
+  edit() {
+    this.presentLoading();
+    this.customerService.update(this.customer.id, this.customer.name, this.customer.description)
+      .subscribe(
+        data => {
+          this.events.publish('functionCall:loadCustomers');
+          this.navCtrl.pop();
+          this.loader.dismiss();
+        },
+        error => {
+          console.log(error);
+          this.loader.dismiss();
+        },
+        () => console.log('Customer Updated Successfully')
+      );
   }
 
 }

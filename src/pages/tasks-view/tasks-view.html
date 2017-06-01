@@ -6,13 +6,54 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>tasks_view</ion-title>
+  <ion-navbar no-border-bottom>
+    <ion-title>{{task.name}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="edit()">
+        <ion-icon name="brush"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top class="segment-bar">
 
+
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button color="danger" *ngFor="let step of task.steps" [value]="step.name">
+        {{ step.name }}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content>
+  <div [ngSwitch]="segment">
+    <ng-container *ngFor="let step of task.steps">
+      <ion-list *ngSwitchCase="step.name">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/img/thumbnail-puppy-1.jpg">
+          </ion-thumbnail>
+          <h2>Ruby</h2>
+        </ion-item>
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/img/thumbnail-puppy-2.jpg">
+          </ion-thumbnail>
+          <h2>Oscar</h2>
+        </ion-item>
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/img/thumbnail-puppy-4.jpg">
+          </ion-thumbnail>
+          <h2>Zoey</h2>
+        </ion-item>
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="assets/img/thumbnail-puppy-3.jpg">
+          </ion-thumbnail>
+          <h2>Otto</h2>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+  </div>
 </ion-content>

@@ -18,7 +18,10 @@ import {UsersTabPage} from "../users-tab/users-tab";
 export class SubscribersPage {
 
   users: Array<User>;
+  searchQuery: string = '';
+  items: Array<User>;
   loader: any;
+  toggled: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -38,6 +41,34 @@ export class SubscribersPage {
       content: "Loading..."
     });
     this.loader.present();
+  }
+
+  initializeItems() {
+    this.items = this.users
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.initializeItems();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.items = this.items.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  toggleSearch() {
+    this.toggled = this.toggled ? false : true;
+  }
+
+  cancelSearch() {
+    this.toggleSearch();
+    this.initializeItems();
   }
 
   index() {
