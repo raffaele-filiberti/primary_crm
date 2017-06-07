@@ -1,7 +1,9 @@
 <ion-menu id="authenticated" [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <div class="thumbnail">
+        <div class="heading">{{ user?.name }}</div>
+      </div>
     </ion-toolbar>
   </ion-header>
 

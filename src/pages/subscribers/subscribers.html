@@ -6,12 +6,12 @@
 -->
 <ion-header>
 
-    <ion-toolbar>      <button ion-button icon-only menuToggle>        <ion-icon name="menu"></ion-icon>      </button>
+    <ion-navbar color="white">
     <ion-title *ngIf="!toggled">Subscribers</ion-title>
     <ion-searchbar
       *ngIf="toggled"
       (ionInput)="getItems($event)"
-      (ionCancel)="cancelSearch($event)"
+      (ionCancel)="clearSearch($event)"
       (ionClear) = "cancelSearch($event)"
       [showCancelButton]="true"
       [autocomplete]="true"
@@ -22,7 +22,7 @@
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 
 </ion-header>
 

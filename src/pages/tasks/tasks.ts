@@ -67,8 +67,7 @@ export class TasksPage {
   }
 
   percentage(task:Task){
-    let percentuale = (100 / task.steps.length) * task.steps.filter(x => x.pivot.status == 1).length;
-    console.log(percentuale);
+    let percentuale = (100 / task.step_task.length) * task.step_task.filter(x => x.status == 1).length;
     return percentuale
   }
 
@@ -98,6 +97,10 @@ export class TasksPage {
   cancelSearch() {
     this.toggleSearch();
     this.initializeItems();
+  }
+
+  clearSearch(ev: any) {
+    this.searchQuery = '';
   }
 
   store() {

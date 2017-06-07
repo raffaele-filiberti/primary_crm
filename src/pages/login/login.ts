@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {IonicPage, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
+import {AuthProvider} from "../../providers/auth/auth";
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
-import { tokenNotExpired } from 'angular2-jwt';
 
 //models
 import { User } from '../../models/User';
@@ -26,7 +26,8 @@ export class LoginPage {
               public loadingCtrl: LoadingController,
               public navParams: NavParams,
               public menuCtrl: MenuController,
-              private loginService: LoginServiceProvider) {
+              private loginService: LoginServiceProvider,
+              private auth: AuthProvider) {
   }
 
   enableMenu() {
@@ -77,7 +78,7 @@ export class LoginPage {
       )}
 
   ionViewWillEnter() {
-    if(tokenNotExpired() )
+    if(this.auth.authenticated() )
       this.navCtrl.setRoot(HomePage, {
         user: this.user
       })

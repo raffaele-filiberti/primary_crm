@@ -53,6 +53,21 @@ import {TasksEditPage} from "../pages/tasks-edit/tasks-edit";
 import {TasksStorePage} from "../pages/tasks-store/tasks-store";
 import {TasksViewPage} from "../pages/tasks-view/tasks-view";
 import { TasksServiceProvider } from '../providers/tasks-service/tasks-service';
+import { FileSizePipe } from '../pipes/file-size/file-size';
+import { TemplateServiceProvider } from '../providers/template-service/template-service';
+import {TemplatesViewPage} from "../pages/templates-view/templates-view";
+import {TemplatesEditPage} from "../pages/templates-edit/templates-edit";
+import {TemplatesStorePage} from "../pages/templates-store/templates-store";
+import {StepsPage} from "../pages/steps/steps";
+import {StepsEditPage} from "../pages/steps-edit/steps-edit";
+import {StepsStorePage} from "../pages/steps-store/steps-store";
+import {StepsViewPage} from "../pages/steps-view/steps-view";
+import {DetailsPage} from "../pages/details/details";
+import {DetailsEditPage} from "../pages/details-edit/details-edit";
+import {DetailsStorePage} from "../pages/details-store/details-store";
+import {DetailsViewPage} from "../pages/details-view/details-view";
+import { StepServiceProvider } from '../providers/step-service/step-service';
+import { DetailServiceProvider } from '../providers/detail-service/detail-service';
 
 
 export function getAuthHttp(http) {
@@ -92,9 +107,21 @@ export function getAuthHttp(http) {
     TasksEditPage,
     TasksStorePage,
     TasksViewPage,
+    TemplatesViewPage,
+    TemplatesEditPage,
+    TemplatesStorePage,
+    StepsPage,
+    StepsEditPage,
+    StepsStorePage,
+    StepsViewPage,
+    DetailsPage,
+    DetailsEditPage,
+    DetailsStorePage,
+    DetailsViewPage,
 
     //Pipe
-    AvatarFirstCharPipe
+    AvatarFirstCharPipe,
+    FileSizePipe
   ],
   imports: [
     BrowserModule,
@@ -127,20 +154,34 @@ export function getAuthHttp(http) {
     TasksPage,
     TasksEditPage,
     TasksStorePage,
-    TasksViewPage
+    TasksViewPage,
+    TemplatesViewPage,
+    TemplatesEditPage,
+    TemplatesStorePage,
+    StepsPage,
+    StepsEditPage,
+    StepsStorePage,
+    StepsViewPage,
+    DetailsPage,
+    DetailsEditPage,
+    DetailsStorePage,
+    DetailsViewPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: AuthHttp, useFactory: getAuthHttp, deps: [Http]},
-    LoginServiceProvider,
     AuthProvider,
+    LoginServiceProvider,
     UsersServiceProvider,
     CustomerServiceProvider,
     RoleServiceProvider,
     ProjectsServiceProvider,
-    TasksServiceProvider
+    TasksServiceProvider,
+    TemplateServiceProvider,
+    StepServiceProvider,
+    DetailServiceProvider
   ]
 })
 export class AppModule {}

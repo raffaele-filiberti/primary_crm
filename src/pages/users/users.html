@@ -7,12 +7,15 @@
 <script src="../../../../../Documents/GitHub/CRM_Client/src/app/app.module.ts"></script>
 <ion-header>
 
-    <ion-toolbar>      <button ion-button icon-only menuToggle>        <ion-icon name="menu"></ion-icon>      </button>
+  <ion-navbar color="white">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title *ngIf="!toggled">Users</ion-title>
     <ion-searchbar
       *ngIf="toggled"
       (ionInput)="getItems($event)"
-      (ionCancel)="cancelSearch($event)"
+      (ionCancel)="clearSearch($event)"
       (ionClear) = "cancelSearch($event)"
       [showCancelButton]="true"
       [autocomplete]="true"
@@ -27,7 +30,7 @@
       </button>
 
     </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 
 </ion-header>
 

@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {Template} from "../../models/Task";
+import {TemplateServiceProvider} from "../../providers/template-service/template-service";
+import {TemplatesStorePage} from "../templates-store/templates-store";
+import {TemplatesEditPage} from "../templates-edit/templates-edit";
+import {TemplatesViewPage} from "../templates-view/templates-view";
+import {StepsPage} from "../steps/steps";
 
 /**
  * Generated class for the TemplatesPage page.
@@ -13,12 +19,112 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'templates.html',
 })
 export class TemplatesPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  templates: Array<Template>;
+  searchQuery: string = '';
+  items: Array<Template>;
+  loader: any;
+  toggled: boolean;
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public events: Events,
+              public loadingCtrl: LoadingController,
+              private templateService: TemplateServiceProvider) {
+    this.toggled = false;
+    this.index();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TemplatesPage');
+    this.events.subscribe('functionCall:loadTemplates', eventData => {
+      this.index();
+    });
+  }
+
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "Loading..."
+    });
+    this.loader.present();
+  }
+
+  index() {
+    this.presentLoading();
+    this.templateService.index()
+      .subscribe(
+        data => {
+          this.templates = data.templates;
+          console.log(this.templates);
+          this.initializeItems();
+          this.loader.dismiss();
+        },
+        error => {
+          console.log(error);
+        },
+        () => console.log('Template List Complete')
+      );
+  }
+
+  initializeItems() {
+    this.items = this.templates
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.initializeItems();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.items = this.items.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  toggleSearch() {
+    this.toggled = this.toggled ? false : true;
+  }
+
+  cancelSearch() {
+    this.toggleSearch();
+    this.initializeItems();
+  }
+
+  clearSearch(ev: any) {
+    this.searchQuery = '';
+  }
+
+  store() {
+    this.navCtrl.push(TemplatesStorePage);
+  }
+
+  edit(template:Template) {
+    this.navCtrl.push(TemplatesEditPage, {
+      template: template
+    });
+  }
+
+  view(template:Template) {
+    this.navCtrl.push(TemplatesViewPage, {
+      template: template
+    });
+  }
+
+  delete(template:Template) {
+    this.templateService.delete(template.id)
+      .subscribe(
+        data => {
+          this.templates.splice(this.templates.findIndex(x => x.id == template.id), 1);
+          console.log(data.status);
+        }
+      );
+  }
+
+  steps(template:Template) {
+    this.navCtrl.push(StepsPage, {
+      template_id: template.id
+    });
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {App, Events, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
 import {UsersServiceProvider} from "../../providers/users-service/users-service";
 import {User} from "../../models/User";
 import {UsersViewPage} from "../users-view/users-view";
@@ -13,7 +13,9 @@ import {UsersEditPage} from "../users-edit/users-edit";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+@IonicPage({
+  name: 'users'
+})
 @Component({
   selector: 'page-users',
   templateUrl: 'users.html',
@@ -28,7 +30,9 @@ export class UsersPage {
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
-              private UserService: UsersServiceProvider) {
+              private UserService: UsersServiceProvider,
+              public appCtrl: App,
+              public viewCtrl: ViewController) {
     this.toggled = false;
   }
 
@@ -101,9 +105,13 @@ export class UsersPage {
   }
 
   view(user:User) {
-    this.navCtrl.push(UsersViewPage, {
+    this.viewCtrl.dismiss();
+    this.appCtrl.getRootNav().push(UsersViewPage, {
       user: user
     });
+    // this.navCtrl.push(UsersViewPage, {
+    //   user: user
+    // });
   }
 
   delete(user:User) {

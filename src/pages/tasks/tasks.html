@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-navbar>
     <ion-title *ngIf="!toggled">Tasks</ion-title>
     <ion-searchbar
       *ngIf="toggled"
       (ionInput)="getItems($event)"
-      (ionCancel)="cancelSearch($event)"
+      (ionCancel)="clearSearch($event)"
       (ionClear) = "cancelSearch($event)"
       [showCancelButton]="true"
       [autocomplete]="true"
@@ -19,7 +19,7 @@
       </button>
 
     </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 
 </ion-header>
 

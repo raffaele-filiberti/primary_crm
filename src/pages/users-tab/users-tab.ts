@@ -4,7 +4,8 @@ import {UsersPage} from "../users/users";
 import {SubscribersPage} from "../subscribers/subscribers";
 
 @IonicPage({
-  segment: 'users'
+  name: 'users'
+
 })
 @Component({
   templateUrl: 'users-tab.html'

@@ -1,0 +1,63 @@
+<ion-header>
+
+  <ion-navbar color="white">
+    <ion-title *ngIf="!toggled">Details</ion-title>
+    <ion-searchbar
+      *ngIf="toggled"
+      (ionInput)="getItems($event)"
+      (ionCancel)="clearSearch($event)"
+      (ionClear) = "cancelSearch($event)"
+      [showCancelButton]="true"
+      [autocomplete]="true"
+      [animated]="true">
+    </ion-searchbar>
+    <ion-buttons end *ngIf="!toggled">
+      <button ion-button icon-only color="royal" (click)="store()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button icon-only color="royal" (click)="toggleSearch()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-grid no-padding>
+    <ion-row align-items-center>
+      <ion-col col-lg-6 col-md-8 offset-lg-3 offset-md-2>
+        <p *ngIf="!details?.length && !details">No details yet, please add <a (click)="store()">new</a> one!</p>
+        <p class="subheader">All Details</p>
+        <ion-list class="drive-list" *ngIf="details?.length">
+          <ion-item-sliding *ngFor="let detail of items">
+            <ion-item>
+              <h2>{{ detail.name }}</h2>
+              <p>{{ detail.description }}</p>
+              <ion-note item-end>{{ detail.created_at | date }}</ion-note>
+            </ion-item>
+            <ion-item-options side="right">
+              <button ion-button color="primary" (click)="view(detail)">
+                <ion-icon name="eye"></ion-icon>
+                View
+              </button>
+              <button ion-button color="primary" (click)="edit(detail)">
+                <ion-icon name="brush"></ion-icon>
+                Edit
+              </button>
+              <button ion-button color="light" (click)="archive(detail)">
+                <ion-icon name="filing"></ion-icon>
+                Archive
+              </button>
+              <button ion-button color="danger" (click)="delete(detail)">
+                <ion-icon name="trash"></ion-icon>
+                Delete
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

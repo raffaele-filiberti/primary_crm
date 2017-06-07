@@ -92,6 +92,10 @@ export class CustomersPage {
     this.initializeItems();
   }
 
+  clearSearch(ev: any) {
+    this.searchQuery = '';
+  }
+
   store() {
     this.navCtrl.push(CustomersStorePage);
   }

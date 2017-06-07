@@ -71,6 +71,10 @@ export class SubscribersPage {
     this.initializeItems();
   }
 
+  clearSearch(ev: any) {
+    this.searchQuery = '';
+  }
+
   index() {
     this.presentLoading();
     this.UserService.getUserToSubscribe()

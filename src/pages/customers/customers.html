@@ -1,12 +1,15 @@
 <ion-header>
 
-    <ion-toolbar>
+    <ion-navbar color="white">
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
     <ion-title *ngIf="!toggled">Customers</ion-title>
     <ion-searchbar
       *ngIf="toggled"
       (ionInput)="getItems($event)"
-      (ionCancel)="cancelSearch($event)"
       (ionClear) = "cancelSearch($event)"
+      (ionCancel)="clearSearch($event)"
       [showCancelButton]="true"
       [autocomplete]="true"
       [animated]="true">
@@ -20,7 +23,7 @@
       </button>
 
     </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 
 </ion-header>
 

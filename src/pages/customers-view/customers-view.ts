@@ -25,9 +25,9 @@ export class CustomersViewPage {
     //
   }
 
-  edit(customer:Customer) {
+  edit() {
     this.navCtrl.push(CustomersEditPage, {
-      customer: customer
+      customer: this.customer
     });
   }
 
