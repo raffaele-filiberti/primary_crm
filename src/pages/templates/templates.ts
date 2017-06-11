@@ -23,13 +23,11 @@ export class TemplatesPage {
   searchQuery: string = '';
   items: Array<Template>;
   loader: any;
-  toggled: boolean;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
               private templateService: TemplateServiceProvider) {
-    this.toggled = false;
     this.index();
   }
 
@@ -82,18 +80,9 @@ export class TemplatesPage {
     }
   }
 
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
 
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
-  }
 
-  clearSearch(ev: any) {
-    this.searchQuery = '';
-  }
+
 
   store() {
     this.navCtrl.push(TemplatesStorePage);

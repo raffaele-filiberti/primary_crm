@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {DetailServiceProvider} from "../../providers/detail-service/detail-service";
 import {Detail} from "../../models/Task";
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the DetailsStorePage page.
@@ -24,7 +25,8 @@ export class DetailsStorePage {
               public loadingCtrl: LoadingController,
               private detailService: DetailServiceProvider,
               public navParams: NavParams,
-              public events: Events) {
+              public events: Events,
+  ) {
     this.detail = new Detail();
     this.template_id = navParams.get('template_id');
     this.step_id = navParams.get('step_id');
@@ -35,10 +37,11 @@ export class DetailsStorePage {
   }
 
   store() {
-    this.detailService.store(this.template_id, this.step_id, this.detail.name, this.detail.description, this.detail.roled, this.detail.detail_type)
+    this.presentLoading();
+    this.detailService.store(this.template_id, this.step_id, this.detail.name, this.detail.description, (this.detail.roled)? true : false, this.detail.detail_type)
       .subscribe(
         data => {
-          this.events.publish('functionCall:loadsDetails');
+          this.events.publish('functionCall:loadDetails');
           this.loader.dismiss();
           this.navCtrl.pop();
 

@@ -17,7 +17,8 @@ import {CustomersEditPage} from "../customers-edit/customers-edit";
 export class CustomersViewPage {
   customer: Customer;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,) {
     this.customer = navParams.get('customer');
   }
 

@@ -32,6 +32,7 @@ export class TemplatesStorePage {
   }
 
   store() {
+    this.presentLoading();
     this.templateService.store(this.template.name, this.template.description)
       .subscribe(
         data => {

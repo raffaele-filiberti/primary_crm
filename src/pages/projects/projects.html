@@ -1,19 +1,13 @@
 <ion-header>
-  <ion-navbar color="white">
-    <ion-title *ngIf="!toggled">Projects</ion-title>
-    <ion-searchbar
-      *ngIf="toggled"
-      [(ngModel)]="searchQuery"
-      (ionInput)="getItems($event)"
-      (ionClear) = "cancelSearch($event)"
-      (ionCancel)="clearSearch($event)"
-      [showCancelButton]="true"
-      [autocomplete]="true"
-      [animated]="true">
-    </ion-searchbar>
-    <ion-buttons end *ngIf="!toggled">
+  <ion-navbar no-border-bottom color="primary">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Projects</ion-title>
+
+    <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="store()">
-        <ion-icon name="add"></ion-icon>
+        <ion-icon name="person-add"></ion-icon>
       </button>
       <button ion-button icon-only color="royal" (click)="toggleSearch()">
         <ion-icon name="search"></ion-icon>
@@ -21,39 +15,52 @@
 
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="getItems($event)"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
 
-  <p padding *ngIf="!projects?.length">No Projects yet, please add <a (click)="store()">new</a> one!</p>
+  <ion-list no-margin>
+    <ion-item-divider sticky>
+      <ion-label>
+        Name
+      </ion-label>
+    </ion-item-divider>
 
-  <ion-list *ngIf="projects?.length" padding-top>
-    <ion-item-sliding *ngFor="let project of items">
-      <ion-item (click)="tasks(project)">
-        <h2>{{ project.name }}</h2>
-        <p>{{ project.description }}</p>
-        <ion-note item-end>{{ project.created_at | date }}</ion-note>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="primary" (click)="view(project)">
-          <ion-icon name="eye"></ion-icon>
-          View
-        </button>
-        <button ion-button color="primary" (click)="edit(project)">
-          <ion-icon name="brush"></ion-icon>
-          Edit
-        </button>
-        <button ion-button color="light" (click)="archive(project)">
-          <ion-icon name="filing"></ion-icon>
-          Archive
-        </button>
-        <button ion-button color="danger" (click)="delete(project)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
+    <ion-item-group *ngFor="let project of items">
+      <ion-item-sliding>
+        <ion-item (click)="tasks(project)">
+          <h2>{{ project.name }}</h2>
+          <p>{{ project.description }}</p>
+          <ion-note item-end>{{ project.created_at | date }}</ion-note>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="view(project)">
+            <ion-icon name="eye"></ion-icon>
+            View
+          </button>
+          <button ion-button color="primary" (click)="edit(project)">
+            <ion-icon name="brush"></ion-icon>
+            Edit
+          </button>
+          <button ion-button color="light" (click)="archive(project)">
+            <ion-icon name="filing"></ion-icon>
+            Archive
+          </button>
+          <button ion-button color="danger" (click)="delete(project)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
   </ion-list>
 
 </ion-content>

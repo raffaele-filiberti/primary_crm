@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {IonicPage, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
+import {Events, IonicPage, LoadingController, MenuController, NavController, NavParams} from 'ionic-angular';
 import {AuthProvider} from "../../providers/auth/auth";
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
+import { Storage } from '@ionic/storage';
 
 //models
 import { User } from '../../models/User';
@@ -22,27 +23,18 @@ export class LoginPage {
   password: string;
   loader: any;
 
-  constructor(public navCtrl: NavController,
-              public loadingCtrl: LoadingController,
-              public navParams: NavParams,
-              public menuCtrl: MenuController,
-              private loginService: LoginServiceProvider,
-              private auth: AuthProvider) {
-  }
-
-  enableMenu() {
-    if(!localStorage.getItem('token'))
-    {
-      this.menuCtrl.enable(false, 'authenticated');
-    }
-    else {
-      this.menuCtrl.enable(true, 'authenticated');
-    }
+  constructor(
+    public events: Events,
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+    public navParams: NavParams,
+    private loginService: LoginServiceProvider,
+    private auth: AuthProvider,
+    public storage: Storage) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-    this.enableMenu();
+    //
   }
 
   presentLoading() {
@@ -57,12 +49,11 @@ export class LoginPage {
     this.loginService.login(this.email, this.password)
       .subscribe(
         data => {
-
-          this.user = data.user;
-
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("authUser", JSON.stringify(this.user));
-          localStorage.setItem("agency", JSON.stringify(data.agency));
+          this.storage.set("token", data.token);
+          this.storage.set("authUser", JSON.stringify(data.auth));
+          this.storage.set("authRole", JSON.stringify(data.authRole));
+          this.storage.set("agency", JSON.stringify(data.agency));
+          this.events.publish('user:login');
           console.log(this.user);
           this.loader.dismiss();
         },
@@ -76,12 +67,5 @@ export class LoginPage {
           user: this.user
         })
       )}
-
-  ionViewWillEnter() {
-    if(this.auth.authenticated() )
-      this.navCtrl.setRoot(HomePage, {
-        user: this.user
-      })
-  }
 
 }

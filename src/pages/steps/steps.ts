@@ -23,7 +23,6 @@ export class StepsPage {
   searchQuery: string = '';
   items: Array<Step>;
   loader: any;
-  toggled: boolean;
   template_id: number;
 
   constructor(public navCtrl: NavController,
@@ -31,7 +30,6 @@ export class StepsPage {
               public events: Events,
               public loadingCtrl: LoadingController,
               private stepService: StepServiceProvider) {
-    this.toggled = false;
     this.template_id = navParams.get('template_id');
     this.index();
   }
@@ -85,21 +83,14 @@ export class StepsPage {
     }
   }
 
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
 
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
-  }
 
-  clearSearch(ev: any) {
-    this.searchQuery = '';
-  }
+
 
   store() {
-    this.navCtrl.push(StepsStorePage);
+    this.navCtrl.push(StepsStorePage, {
+      template_id: this.template_id
+    });
   }
 
   edit(step:Step) {

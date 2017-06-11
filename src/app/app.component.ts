@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import {Platform, Nav, Events, MenuController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
@@ -7,42 +7,112 @@ import { HomePage } from '../pages/home/home';
 import {CustomersPage} from "../pages/customers/customers";
 import {TemplatesPage} from "../pages/templates/templates";
 import {UsersTabPage} from "../pages/users-tab/users-tab";
+import {User} from "../models/User";
+import {AuthProvider} from "../providers/auth/auth";
+import {NotificationsPage} from "../pages/notifications/notifications";
+import { Storage } from '@ionic/storage';
+import {UsersViewPage} from "../pages/users-view/users-view";
+import {JwtHelper, tokenNotExpired} from "angular2-jwt";
 
+export interface PageInterface {
+  title: string;
+  component: any;
+  icon: string;
+  role: number;
+  logsOut?: boolean;
+}
 
 @Component({
-    templateUrl: 'app.html'
+  templateUrl: 'app.html'
 })
 export class MyApp {
-    @ViewChild(Nav) nav: Nav;
+  @ViewChild(Nav) nav: Nav;
 
-    rootPage:any = LoginPage;
-    pages: Array<{ title: string, component: any }>;
+  jwtHelper: JwtHelper;
+  user: User;
+  pages: PageInterface[] = [
+    { title: 'Dashboard', icon: 'clipboard', component: HomePage, role: 6 },
+    { title: 'Users', icon: 'contacts', component: UsersTabPage, role: 3},
+    { title: 'Customers', icon: 'bookmarks', component: CustomersPage,  role: 6},
+    { title: 'Templates', icon: 'bulb', component: TemplatesPage,  role: 1},
+    { title: 'Notifications', icon: 'notifications', component: NotificationsPage,  role: 6}
+  ];
 
+  logInPages: PageInterface[] = [
+    {title: 'My Profile', icon: 'contact', component: UsersViewPage, role: 6},
+    {title: 'Logout', icon: 'log-out', component: HomePage, role: 6, logsOut: true}
+  ];
+  rootPage: any;
 
-    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
-        this.inizializeApp();
+  constructor(
+    public events: Events,
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    private storage: Storage,
+    public menuCtrl: MenuController,
+    private auth: AuthProvider) {
+    this.jwtHelper = new JwtHelper();
 
-        this.pages = [
-            { title: 'Dashboard', component: HomePage },
-            { title: 'Users', component: UsersTabPage },
-            { title: 'Customers', component: CustomersPage },
-            { title: 'Template', component: TemplatesPage }
-        ];
+    this.storage.get('token')
+      .then((token) => {
+        if (token) {
+          console.log('token presente');
+          if (!tokenNotExpired(null, token)) {
+            console.log('token expired');
+            this.rootPage = LoginPage;
+            this.enableMenu(false);
+          } else {
+            console.log("time: " + ((this.jwtHelper.getTokenExpirationDate(token).getTime() - new Date().getTime()) / 1000) / 60);
+            if ((((this.jwtHelper.getTokenExpirationDate(token).getTime() - new Date().getTime()) / 1000) / 60) < 30) {
+              console.log('token in refreshing');
+              this.auth.refresh();
+            }
+            this.rootPage = HomePage;
+            console.log("enabled");
+            this.enableMenu(true);
+          }
+        } else {
+          console.log('token non presente');
+          return false;
+        }
+        this.platformReady();
+      });
+
+    this.listenToLoginEvents();
+  }
+
+  platformReady() {
+    // Call any initial plugins when ready
+    this.platform.ready().then(() => {
+      this.splashScreen.hide();
+    });
+  }
+
+  openPage(page) {
+    // Reset the content nav to have just this page
+    // we wouldn't want the back button to show in this scenario
+
+    this.nav.setRoot(page.component);
+
+    if (page.logsOut === true) {
+      // Give the menu time to close before changing to logged out
+      this.auth.logout();
     }
+  }
 
-    inizializeApp() {
-        this.platform.ready().then(() => {
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
-            this.statusBar.styleDefault();
-            this.splashScreen.hide();
-        });
-    }
+  listenToLoginEvents() {
+    this.events.subscribe('user:login', () => {
+      this.enableMenu(true);
+    });
 
-    openPage(page) {
-        // Reset the content nav to have just this page
-        // we wouldn't want the back button to show in this scenario
+    this.events.subscribe('user:logout', () => {
+      this.enableMenu(false);
+    });
+  }
 
-      this.nav.setRoot(page.component);
-    }
+  enableMenu(loggedIn: boolean) {
+    this.menuCtrl.enable(loggedIn, 'auth');
+    // this.menuCtrl.enable(!loggedIn, 'notAuth');
+  }
 }

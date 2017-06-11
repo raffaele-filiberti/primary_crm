@@ -25,14 +25,12 @@ export class ProjectsPage {
   searchQuery: string = '';
   items: Array<Project>;
   loader: any;
-  toggled: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
               private projectsService: ProjectsServiceProvider) {
-    this.toggled = false;
     this.customer_id = this.navParams.get('customer_id');
     this.index();
   }
@@ -86,18 +84,9 @@ export class ProjectsPage {
     }
   }
 
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
 
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
-  }
 
-  clearSearch(ev: any) {
-    this.searchQuery = '';
-  }
+
 
   store() {
     this.navCtrl.push(ProjectsStorePage, {

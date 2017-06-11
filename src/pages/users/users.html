@@ -7,21 +7,13 @@
 <script src="../../../../../Documents/GitHub/CRM_Client/src/app/app.module.ts"></script>
 <ion-header>
 
-  <ion-navbar color="white">
+  <ion-navbar no-border-bottom color="primary">
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title *ngIf="!toggled">Users</ion-title>
-    <ion-searchbar
-      *ngIf="toggled"
-      (ionInput)="getItems($event)"
-      (ionCancel)="clearSearch($event)"
-      (ionClear) = "cancelSearch($event)"
-      [showCancelButton]="true"
-      [autocomplete]="true"
-      [animated]="true">
-    </ion-searchbar>
-    <ion-buttons end *ngIf="!toggled">
+    <ion-title>Users</ion-title>
+
+    <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="store()">
         <ion-icon name="person-add"></ion-icon>
       </button>
@@ -31,34 +23,47 @@
 
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="getItems($event)"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="users">
+  <ion-list no-margin>
+    <ion-item-divider sticky>
+      <ion-label>
+        Users Active
+      </ion-label>
+    </ion-item-divider>
 
-    <ion-list-header>Users Active</ion-list-header>
+    <ion-item-group *ngFor="let user of items">
+      <ion-item-sliding>
+        <ion-item (click)="view(user)">
+          <ion-avatar item-start>
+            {{ user.name | avatarfirstchar }}
+          </ion-avatar>
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+          <ion-note item-end>{{ user.roles[0].display_name }}</ion-note>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="edit(user)">
+            <ion-icon name="brush"></ion-icon>
+            Edit
+          </button>
+          <button ion-button color="danger" (click)="delete(user)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
 
-    <ion-item-sliding *ngFor="let user of items">
-      <ion-item (click)="view(user)">
-        <ion-avatar item-start>
-          {{ user.name | avatarfirstchar }}
-        </ion-avatar>
-        <h2>{{ user.name }}</h2>
-        <p>{{ user.email }}</p>
-        <ion-note item-end>{{ user.roles[0].display_name }}</ion-note>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="primary" (click)="edit(user)">
-          <ion-icon name="brush"></ion-icon>
-          Edit
-        </button>
-        <button ion-button color="danger" (click)="delete(user)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
+    </ion-item-group>
 
 
   </ion-list>

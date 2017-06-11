@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import {HttpModule, RequestOptions} from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -31,6 +31,7 @@ const cloudSettings: CloudSettings = {
 //setting jwt-auth tokenGetter
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { AuthProvider } from '../providers/auth/auth';
 import {UsersEditPage} from "../pages/users-edit/users-edit";
@@ -69,17 +70,20 @@ import {DetailsViewPage} from "../pages/details-view/details-view";
 import { StepServiceProvider } from '../providers/step-service/step-service';
 import { DetailServiceProvider } from '../providers/detail-service/detail-service';
 
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig({noJwtError: true}), http, options);
+}
 
-export function getAuthHttp(http) {
-  return new AuthHttp(new AuthConfig({
-    headerPrefix: 'Bearer',
-    noJwtError: true,
-    globalHeaders: [
-      {'Accept': 'application/json'},
-      {'Content-Type': 'application/json'}
-    ],
-    tokenGetter: (() => localStorage.getItem('token')),
-  }), http);
+export function getAuthHttp(http, storage) {
+    return new AuthHttp(new AuthConfig({
+      headerPrefix: 'Bearer',
+      noJwtError: true,
+      globalHeaders: [
+        {'Accept': 'application/json'},
+        {'Content-Type': 'application/json'}
+      ],
+      tokenGetter: (() => storage.get('token')),
+    }), http);
 }
 
 @NgModule({
@@ -128,7 +132,10 @@ export function getAuthHttp(http) {
     HttpModule,
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot({
+      name: '__primarydb',
+        driverOrder: ['indexeddb', 'sqlite', 'websql']
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -171,7 +178,7 @@ export function getAuthHttp(http) {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {provide: AuthHttp, useFactory: getAuthHttp, deps: [Http]},
+    {provide: AuthHttp, useFactory: getAuthHttp, deps: [Http, Storage]},
     AuthProvider,
     LoginServiceProvider,
     UsersServiceProvider,

@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {App, IonicPage, NavController, NavParams, ViewController} from "ionic-angular";
+import {IonicPage, NavController, NavParams} from "ionic-angular";
 import {User} from "../../models/User";
 import {UsersEditPage} from "../users-edit/users-edit";
 
@@ -22,9 +22,12 @@ export class UsersViewPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public storage: Storage
 ) {
     this.user = navParams.get('user');
-    this.agency = JSON.parse(localStorage.getItem('agency'));
+    this.storage.get('agency').then((agency) => {
+      this.agency = JSON.parse(agency);
+    });
   }
 
   ionViewDidLoad() {

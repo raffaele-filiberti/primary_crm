@@ -1,19 +1,14 @@
 <ion-header>
 
-  <ion-navbar color="white">
-    <ion-title *ngIf="!toggled">Steps</ion-title>
-    <ion-searchbar
-      *ngIf="toggled"
-      (ionInput)="getItems($event)"
-      (ionCancel)="clearSearch($event)"
-      (ionClear) = "cancelSearch($event)"
-      [showCancelButton]="true"
-      [autocomplete]="true"
-      [animated]="true">
-    </ion-searchbar>
-    <ion-buttons end *ngIf="!toggled">
+  <ion-navbar no-border-bottom color="primary">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Steps</ion-title>
+
+    <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="store()">
-        <ion-icon name="add"></ion-icon>
+        <ion-icon name="person-add"></ion-icon>
       </button>
       <button ion-button icon-only color="royal" (click)="toggleSearch()">
         <ion-icon name="search"></ion-icon>
@@ -21,43 +16,50 @@
 
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="getItems($event)"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
-  <ion-grid no-padding>
-    <ion-row align-items-center>
-      <ion-col col-lg-6 col-md-8 offset-lg-3 offset-md-2>
-        <p *ngIf="!steps?.length && !steps">No steps yet, please add <a (click)="store()">new</a> one!</p>
-        <p class="subheader">All Steps</p>
-        <ion-list class="drive-list" *ngIf="steps?.length">
-          <ion-item-sliding *ngFor="let step of items">
-            <ion-item (click)="details(step)">
-              <h2>{{ step.name }}</h2>
-              <p>{{ step.description }}</p>
-              <ion-note item-end>{{ step.created_at | date }}</ion-note>
-            </ion-item>
-            <ion-item-options side="right">
-              <button ion-button color="primary" (click)="view(step)">
-                <ion-icon name="eye"></ion-icon>
-                View
-              </button>
-              <button ion-button color="primary" (click)="edit(step)">
-                <ion-icon name="brush"></ion-icon>
-                Edit
-              </button>
-              <button ion-button color="light" (click)="archive(step)">
-                <ion-icon name="filing"></ion-icon>
-                Archive
-              </button>
-              <button ion-button color="danger" (click)="delete(step)">
-                <ion-icon name="trash"></ion-icon>
-                Delete
-              </button>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list no-margin>
+    <ion-item-divider sticky>
+      <ion-label>
+        Name
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item-group *ngFor="let step of items">
+      <ion-item-sliding>
+        <ion-item (click)="details(step)">
+          <h2>{{ step.name }}</h2>
+          <p>{{ step.description }}</p>
+          <ion-note item-end>{{ step.created_at | date }}</ion-note>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="view(step)">
+            <ion-icon name="eye"></ion-icon>
+            View
+          </button>
+          <button ion-button color="primary" (click)="edit(step)">
+            <ion-icon name="brush"></ion-icon>
+            Edit
+          </button>
+          <button ion-button color="light" (click)="archive(step)">
+            <ion-icon name="filing"></ion-icon>
+            Archive
+          </button>
+          <button ion-button color="danger" (click)="delete(step)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
 </ion-content>

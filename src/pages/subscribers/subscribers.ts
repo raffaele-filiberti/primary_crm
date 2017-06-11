@@ -21,7 +21,6 @@ export class SubscribersPage {
   searchQuery: string = '';
   items: Array<User>;
   loader: any;
-  toggled: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -62,18 +61,9 @@ export class SubscribersPage {
     }
   }
 
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
 
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
-  }
 
-  clearSearch(ev: any) {
-    this.searchQuery = '';
-  }
+
 
   index() {
     this.presentLoading();

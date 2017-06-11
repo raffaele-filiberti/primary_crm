@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, MenuController } from 'ionic-angular';
-
+import { Storage } from '@ionic/storage';
 //models
 import { User } from '../../models/User';
 
@@ -11,15 +11,19 @@ import { User } from '../../models/User';
 export class HomePage {
     user: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    public menuCtrl: MenuController) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public menuCtrl: MenuController,
+              public storage: Storage) {
 
   }
 
   ionViewDidLoad() {
       console.log('ionViewDidLoad HomePage');
       this.menuCtrl.enable(true, 'authenticated');
-      this.user = (this.navParams.get('user'));
+      this.storage.get('authUser').then((authUser) => {
+        this.user = JSON.parse(authUser);
+      });
   }
 
 }

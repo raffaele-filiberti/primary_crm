@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {Customer} from "../../models/User";
-import {UsersServiceProvider} from "../../providers/users-service/users-service";
 import {CustomersStorePage} from "../customers-store/customers-store";
 import {CustomersEditPage} from "../customers-edit/customers-edit";
 import {CustomersViewPage} from "../customers-view/customers-view";
 import {CustomerServiceProvider} from "../../providers/customer-service/customer-service";
 import {ProjectsPage} from "../projects/projects";
-
+import { Storage } from '@ionic/storage';
 /**
  * Generated class for the CustomersPage page.
  *
@@ -24,13 +23,12 @@ export class CustomersPage {
   searchQuery: string = '';
   items: Array<Customer>;
   loader: any;
-  toggled: boolean;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
-              private customerService: CustomerServiceProvider) {
-    this.toggled = false;
+              private customerService: CustomerServiceProvider,
+              private storage: Storage) {
     this.index();
   }
 
@@ -81,19 +79,6 @@ export class CustomersPage {
         return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
-  }
-
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
-
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
-  }
-
-  clearSearch(ev: any) {
-    this.searchQuery = '';
   }
 
   store() {

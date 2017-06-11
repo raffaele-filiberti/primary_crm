@@ -25,7 +25,7 @@ export class UsersPage {
   searchQuery: string = '';
   items: Array<User>;
   loader: any;
-  toggled: boolean;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
@@ -33,7 +33,6 @@ export class UsersPage {
               private UserService: UsersServiceProvider,
               public appCtrl: App,
               public viewCtrl: ViewController) {
-    this.toggled = false;
   }
 
   ionViewDidLoad() {
@@ -83,15 +82,6 @@ export class UsersPage {
         return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
-  }
-
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
-
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
   }
 
   store() {

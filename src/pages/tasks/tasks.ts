@@ -11,6 +11,8 @@ import { Task } from "../../models/Task";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+//TODO: TASK UPLOAD AND DATE PICKER IN .HTML
+//TODO: TASK STORE MISSED
 @IonicPage()
 @Component({
   selector: 'page-tasks',
@@ -23,14 +25,12 @@ export class TasksPage {
   searchQuery: string = '';
   items: Array<Task>;
   loader: any;
-  toggled: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
               private tasksService: TasksServiceProvider) {
-    this.toggled = false;
     this.customer_id = this.navParams.get('customer_id');
     this.project_id = this.navParams.get('project_id');
     this.index();
@@ -90,18 +90,9 @@ export class TasksPage {
     }
   }
 
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
 
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
-  }
 
-  clearSearch(ev: any) {
-    this.searchQuery = '';
-  }
+
 
   store() {
     this.navCtrl.push(TasksStorePage, {

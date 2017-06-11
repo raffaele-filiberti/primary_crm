@@ -33,10 +33,11 @@ export class StepsStorePage {
   }
 
   store() {
+    this.presentLoading();
     this.stepService.store(this.template_id, this.step.name, this.step.description)
       .subscribe(
         data => {
-          this.events.publish('functionCall:loadsSteps');
+          this.events.publish('functionCall:loadSteps');
           this.loader.dismiss();
           this.navCtrl.pop();
 

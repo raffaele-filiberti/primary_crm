@@ -21,7 +21,9 @@
 <ion-content>
   <div class="thumbnail">
     <div class="heading">
+      <h2>
       {{ detail.name }}
+        </h2>
     </div>
   </div>
   <ion-list no-lines>
@@ -31,6 +33,18 @@
           <ion-item>
             <p>Description</p>
             <h3>{{detail.description}}</h3>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <p>Role</p>
+            <h3>{{(detail.roled)? "Agency" : "Customer"}}</h3>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <p>Role</p>
+            <h3>{{(detail.detail_type)? "File Upload" : "Date Picker"}}</h3>
           </ion-item>
         </ion-col>
       </ion-row>

@@ -1,22 +1,14 @@
 <ion-header>
 
-    <ion-navbar color="white">
-      <button ion-button icon-only menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    <ion-title *ngIf="!toggled">Customers</ion-title>
-    <ion-searchbar
-      *ngIf="toggled"
-      (ionInput)="getItems($event)"
-      (ionClear) = "cancelSearch($event)"
-      (ionCancel)="clearSearch($event)"
-      [showCancelButton]="true"
-      [autocomplete]="true"
-      [animated]="true">
-    </ion-searchbar>
-    <ion-buttons end *ngIf="!toggled">
+  <ion-navbar no-border-bottom color="primary">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Customers</ion-title>
+
+    <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="store()">
-        <ion-icon name="add"></ion-icon>
+        <ion-icon name="person-add"></ion-icon>
       </button>
       <button ion-button icon-only color="royal" (click)="toggleSearch()">
         <ion-icon name="search"></ion-icon>
@@ -24,43 +16,50 @@
 
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-top primary>
+    <ion-searchbar
+                   [(ngModel)]="queryText"
+                   (ionInput)="getItems($event)"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
-  <ion-grid no-padding>
-    <ion-row align-items-center>
-      <ion-col col-lg-6 col-md-8 offset-lg-3 offset-md-2>
-        <p *ngIf="!customers?.length">No customers yet, please add <a (click)="store()">new</a> one!</p>
+  <ion-list no-margin>
+    <ion-item-divider sticky>
+      <ion-label>
+        Name
+      </ion-label>
+    </ion-item-divider>
 
-        <ion-list *ngIf="customers?.length" padding-top>
-          <ion-item-sliding *ngFor="let customer of items">
-            <ion-item (click)="projects(customer)">
-              <h2>{{ customer.name }}</h2>
-              <p>{{ customer.description }}</p>
-              <ion-note item-end>{{ customer.created_at | date }}</ion-note>
-            </ion-item>
-            <ion-item-options side="right">
-              <button ion-button color="primary" (click)="view(customer)">
-                <ion-icon name="eye"></ion-icon>
-                View
-              </button>
-              <button ion-button color="primary" (click)="edit(customer)">
-                <ion-icon name="brush"></ion-icon>
-                Edit
-              </button>
-              <button ion-button color="light" (click)="archive(customer)">
-                <ion-icon name="filing"></ion-icon>
-                Archive
-              </button>
-              <button ion-button color="danger" (click)="delete(customer)">
-                <ion-icon name="trash"></ion-icon>
-                Delete
-              </button>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-item-group *ngFor="let customer of items">
+      <ion-item-sliding>
+        <ion-item (click)="projects(customer)">
+          <h2>{{ customer.name }}</h2>
+          <p>{{ customer.description }}</p>
+          <ion-note item-end>{{ customer.created_at | date }}</ion-note>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="primary" (click)="view(customer)">
+            <ion-icon name="eye"></ion-icon>
+            View
+          </button>
+          <button ion-button color="primary" (click)="edit(customer)">
+            <ion-icon name="brush"></ion-icon>
+            Edit
+          </button>
+          <button ion-button color="light" (click)="archive(customer)">
+            <ion-icon name="filing"></ion-icon>
+            Archive
+          </button>
+          <button ion-button color="danger" (click)="delete(customer)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
 </ion-content>

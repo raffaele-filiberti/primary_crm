@@ -5,6 +5,7 @@ import {DetailServiceProvider} from "../../providers/detail-service/detail-servi
 import {DetailsStorePage} from "../details-store/details-store";
 import {DetailsEditPage} from "../details-edit/details-edit";
 import {DetailsViewPage} from "../details-view/details-view";
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the DetailsPage page.
@@ -22,7 +23,6 @@ export class DetailsPage {
   searchQuery: string = '';
   items: Array<Detail>;
   loader: any;
-  toggled: boolean;
   template_id: number;
   step_id: number;
 
@@ -30,8 +30,8 @@ export class DetailsPage {
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
-              private detailService: DetailServiceProvider) {
-    this.toggled = false;
+              private detailService: DetailServiceProvider,
+              private storage:Storage) {
     this.template_id = navParams.get('template_id');
     this.step_id = navParams.get('step_id');
     this.index();
@@ -86,18 +86,9 @@ export class DetailsPage {
     }
   }
 
-  toggleSearch() {
-    this.toggled = this.toggled ? false : true;
-  }
 
-  cancelSearch() {
-    this.toggleSearch();
-    this.initializeItems();
-  }
 
-  clearSearch(ev: any) {
-    this.searchQuery = '';
-  }
+
 
   store() {
     this.navCtrl.push(DetailsStorePage, {
