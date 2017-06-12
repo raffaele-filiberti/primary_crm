@@ -35,6 +35,7 @@ export class MyApp {
     { title: 'Users', icon: 'contacts', component: UsersTabPage, role: 3},
     { title: 'Customers', icon: 'bookmarks', component: CustomersPage,  role: 6},
     { title: 'Templates', icon: 'bulb', component: TemplatesPage,  role: 1},
+    { title: 'Task', icon: 'briefcase', component: '',  role: 6},
     { title: 'Notifications', icon: 'notifications', component: NotificationsPage,  role: 6}
   ];
 
@@ -74,7 +75,8 @@ export class MyApp {
           }
         } else {
           console.log('token non presente');
-          return false;
+          this.rootPage = LoginPage;
+          this.enableMenu(false);
         }
         this.platformReady();
       });

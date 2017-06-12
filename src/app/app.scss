@@ -105,6 +105,11 @@ ion-note {
   margin-left: 8px;
 }
 
+.lines {
+  border-left: 2px solid #03A9F4;
+  padding-left: 16px;
+}
+
 // Media of at most the maximum breakpoint width. No query for the largest breakpoint.
 // Makes the @content apply to the given breakpoint and narrower.
 @mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {

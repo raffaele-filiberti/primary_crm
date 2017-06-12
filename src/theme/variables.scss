@@ -24,7 +24,7 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  //primary:     rgba(68,138,255,.75),
+  primary:     rgba(68,138,255,.75),
   secondary:  rgba(255,235,59,.75),
   danger:     rgba(244,67,54,.75),
   light:      #fafafa,
@@ -32,7 +32,7 @@ $colors: (
   success:    rgba(0,255,127,.75),
   warning:  rgba(255,235,59,.75),
   white:    #fff,
-  primary: #c03362,
+  //primary: #c03362,
 );
 
 

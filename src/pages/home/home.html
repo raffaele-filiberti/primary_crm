@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="white">
+    <ion-navbar color="primary">
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
@@ -9,7 +9,86 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    <h1>{{user?.name}}</h1>
-    <p>{{user?.email}}</p>
+<ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6 col-lg-3>
+          <ion-card>
+            <ion-card-header>
+              Users
+            </ion-card-header>
+            <ion-card-content>
+              <h1 class="lines">20</h1>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 col-lg-3>
+          <ion-card>
+            <ion-card-header>
+              Tasks
+            </ion-card-header>
+            <ion-card-content>
+              <h1 class="lines">13</h1>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 col-lg-3>
+          <ion-card>
+            <ion-card-header>
+              Notifications
+            </ion-card-header>
+            <ion-card-content>
+              <h1 class="lines">7</h1>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 col-lg-3>
+          <ion-card>
+            <ion-card-header>
+              Projects
+            </ion-card-header>
+            <ion-card-content>
+              <h1 class="lines">13</h1>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12 col-lg-6>
+          <ion-card>
+            <ion-card-header>
+              Recent Activities
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list>
+                <ion-item>
+                  <ion-avatar item-start>
+                    <ion-icon name="briefcase" item-start></ion-icon>
+                  </ion-avatar>
+                  <h2>New Task</h2>
+                  <h3>Bauli / Packaging</h3>
+                  <p>New Task "Brioches" is added by Pippo</p>
+                </ion-item>
+                <ion-item>
+                  <ion-avatar item-start>
+                    <ion-icon name="briefcase" item-start></ion-icon>
+                  </ion-avatar>
+                  <h2>Edit Task</h2>
+                  <h3>Bauli / Packaging</h3>
+                  <p>Task "Brioches" is edited by Pippo</p>
+                </ion-item>
+                <ion-item>
+                  <ion-avatar item-start>
+                    <ion-icon name="briefcase" item-start></ion-icon>
+                  </ion-avatar>
+                  <h2>New User</h2>
+                  <p>Angelo Pintus is added by the admin</p>
+                </ion-item>
+              </ion-list>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>

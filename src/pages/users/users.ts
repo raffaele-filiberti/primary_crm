@@ -95,13 +95,13 @@ export class UsersPage {
   }
 
   view(user:User) {
-    this.viewCtrl.dismiss();
-    this.appCtrl.getRootNav().push(UsersViewPage, {
-      user: user
-    });
-    // this.navCtrl.push(UsersViewPage, {
+    // this.viewCtrl.dismiss();
+    // this.appCtrl.getRootNav().push(UsersViewPage, {
     //   user: user
     // });
+    this.navCtrl.push(UsersViewPage, {
+      user: user
+    });
   }
 
   delete(user:User) {
