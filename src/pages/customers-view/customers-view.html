@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-    <ion-navbar color="white">
+  <ion-navbar no-border-bottom color="primary">
     <ion-title>{{customer.name}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="edit()">
@@ -20,11 +20,9 @@
 
 <ion-content>
   <div class="thumbnail">
-    <div class="heading">
-      <h2>
-      {{ customer.name }}
-      </h2>
-    </div>
+    <ion-item no-lines class="heading">
+      <h2>{{ customer.name }}</h2>
+    </ion-item>
   </div>
   <ion-list no-lines>
     <ion-grid>

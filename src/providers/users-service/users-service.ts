@@ -6,13 +6,14 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
 /*
-  Generated class for the UsersServiceProvider provider.
+ Generated class for the UsersServiceProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
+ See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+ for more info on providers and Angular 2 DI.
+ */
 @Injectable()
 export class UsersServiceProvider {
+  data: any;
 
   constructor(public http: AuthHttp) {
     console.log('Hello UsersServiceProvider Provider');
@@ -23,6 +24,10 @@ export class UsersServiceProvider {
       .map((res:any)=>res.json());
   }
 
+  show(user_id:number){
+    return this.http.get('https://multi-tenancy-crm.herokuapp.com/api/users/' + user_id)
+      .map((res:any)=>res.json());
+  }
 
   store(name:string, email:string, password:string, role_id:number, first_name:string, last_name:string,
         cell_phone:string, fax:string, address:string, postcode:string, province:string, nation:string,

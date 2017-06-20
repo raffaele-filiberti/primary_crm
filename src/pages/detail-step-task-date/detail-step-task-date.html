@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar no-border-bottom color="primary">
+    <ion-title>New Date</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-fab bottom right>
+    <button ion-fab (click)="store()">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-item>
+    <ion-label floating>Deadline</ion-label>
+    <ion-input displayFormat="MMM DD, YYYY" [(ngModel)]="date.data"></ion-input>
+  </ion-item>
+
+  <div>
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea [(ngModel)]="date.description" type="text"></ion-textarea>
+    </ion-item>
+  </div>
+
+</ion-content>

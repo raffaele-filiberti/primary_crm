@@ -5,13 +5,6 @@
     </button>
     <ion-title>Tasks</ion-title>
 
-    <ion-buttons end>
-      <button ion-button icon-only color="royal" (click)="store()">
-        <ion-icon name="person-add"></ion-icon>
-      </button>
-
-
-    </ion-buttons>
   </ion-navbar>
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
@@ -24,8 +17,13 @@
 </ion-header>
 
 <ion-content>
+  <ion-fab bottom right>
+    <button ion-fab (click)="store()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 
-  <ion-list no-margin>
+  <ion-list no-margin [hidden]="items.length === 0">
     <ion-item-divider sticky>
       <ion-label>
         Name
@@ -34,7 +32,7 @@
 
     <ion-item-group *ngFor="let task of items">
       <ion-item-sliding>
-        <ion-item (click)="view(task)">
+        <ion-item (click)="view(task)" [ngClass]="{success: percentage(task) >= 66, warning: percentage(task) < 66, danger: percentage(task) < 33}">
           <h2>{{ task.name }}</h2>
           <p>Deadline: {{ task.deadline | date }}</p>
           <ion-note item-end>{{ percentage(task) }}%</ion-note>
@@ -60,5 +58,8 @@
       </ion-item-sliding>
     </ion-item-group>
   </ion-list>
+  <ion-list-header no-lines [hidden]="items.length > 0">
+    No Task Found
+  </ion-list-header>
 
 </ion-content>

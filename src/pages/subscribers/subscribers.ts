@@ -27,12 +27,13 @@ export class SubscribersPage {
               public events: Events,
               public loadingCtrl: LoadingController,
               private UserService: UsersServiceProvider) {
-  }
-
-  ngAfterViewInit() {
+    this.items = new Array<User>();
     this.events.subscribe('functionCall:loadSubscribers', eventData => {
       this.index();
     });
+  }
+
+  ionViewDidLoad() {
   }
 
   presentLoading() {
@@ -71,7 +72,8 @@ export class SubscribersPage {
       .subscribe(
         data => {
           this.users = data.users;
-          console.log(this.users);
+          console.log(this.users)
+          this.initializeItems();
           this.loader.dismiss();
         },
         error => {

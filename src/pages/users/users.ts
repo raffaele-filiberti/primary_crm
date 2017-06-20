@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import {App, Events, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
+import {App, Events, IonicPage, LoadingController, NavController, NavParams, ViewController, ModalController} from 'ionic-angular';
 import {UsersServiceProvider} from "../../providers/users-service/users-service";
 import {User} from "../../models/User";
 import {UsersViewPage} from "../users-view/users-view";
 import {UsersStorePage} from "../users-store/users-store";
 import {UsersEditPage} from "../users-edit/users-edit";
+import {Storage} from "@ionic/storage";
 
 
 /**
@@ -13,9 +14,7 @@ import {UsersEditPage} from "../users-edit/users-edit";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage({
-  name: 'users'
-})
+@IonicPage()
 @Component({
   selector: 'page-users',
   templateUrl: 'users.html',
@@ -30,15 +29,19 @@ export class UsersPage {
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
-              private UserService: UsersServiceProvider,
+              private userService: UsersServiceProvider,
+              public storage: Storage,
+              public viewCtrl: ViewController,
               public appCtrl: App,
-              public viewCtrl: ViewController) {
-  }
-
-  ionViewDidLoad() {
+              public modalCtrl: ModalController) {
+    this.items = new Array<User>();
     this.events.subscribe('functionCall:loadUsers', eventData => {
       this.index();
     });
+  }
+
+  ionViewDidLoad() {
+
   }
 
   presentLoading() {
@@ -50,10 +53,11 @@ export class UsersPage {
 
   index() {
     this.presentLoading();
-    this.UserService.index()
+    this.userService.index()
       .subscribe(
         data => {
           this.users = data.users;
+          this.storage.set('users', this.users);
           console.log(this.users);
           this.initializeItems();
           this.loader.dismiss();
@@ -89,23 +93,15 @@ export class UsersPage {
   }
 
   edit(user:User) {
-    this.navCtrl.push(UsersEditPage, {
-      user: user
-    });
+    this.navCtrl.push(UsersEditPage, { user: user });
   }
 
   view(user:User) {
-    // this.viewCtrl.dismiss();
-    // this.appCtrl.getRootNav().push(UsersViewPage, {
-    //   user: user
-    // });
-    this.navCtrl.push(UsersViewPage, {
-      user: user
-    });
+    this.navCtrl.push(UsersViewPage, { id: user.id, user: user });
   }
 
   delete(user:User) {
-    this.UserService.delete(user.id)
+    this.userService.delete(user.id)
       .subscribe(
         data => {
           this.users.splice(this.users.findIndex(x => x.id == user.id), 1);
@@ -113,5 +109,4 @@ export class UsersPage {
         }
       );
   }
-
 }

@@ -27,9 +27,9 @@ export class TasksServiceProvider {
     return this.http.get(url).map((res:any) => res.json());
   }
 
-  store(customer_id:number, project_id:number, deadline:Date, template_id:number, name:string, pm:number, design_type:string, steps:Step[]){
+  store(customer_id:number, project_id:number, name:string, description:string, template_id:number, country:string, product_manager_id:number, item_number:string, design_type:string, deadline:Date, pvt:boolean, steps:Step[]){
     let url: string = "https://multi-tenancy-crm.herokuapp.com/api/customers/"+ customer_id +"/projects/"+ project_id +"/tasks";
-    return this.http.post(url, JSON.stringify({deadline:deadline, template_id:template_id, name:name, steps:steps, product_manager_id:pm, design_type:design_type})).map((res:any)=>res.json());
+    return this.http.post(url, JSON.stringify({deadline:deadline, template_id:template_id, name:name, steps:steps, product_manager_id:product_manager_id, design_type:design_type})).map((res:any)=>res.json());
   }
 
   update(customer_id:number, project_id:number, task_id:number, name:string, description:string, template_id:number, country:string, product_manager_id:number, item_number:string, design_type:string, deadline:Date, pvt:boolean, arc:boolean, bil:boolean){

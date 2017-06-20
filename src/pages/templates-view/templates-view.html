@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar color="white">
-    <ion-title>{{template.name}} Details</ion-title>
+  <ion-navbar no-border-bottom color="primary">
+    <ion-title>{{template?.name}} Details</ion-title>
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="edit()">
         <ion-icon name="brush"></ion-icon>
@@ -20,11 +20,9 @@
 
 <ion-content>
   <div class="thumbnail">
-    <div class="heading">
-      <h2>
-      {{ template.name }}
-      </h2>
-    </div>
+    <ion-item no-lines class="heading">
+      <h2>{{ template?.name }}</h2>
+    </ion-item>
   </div>
   <ion-list no-lines>
     <ion-grid>
@@ -32,7 +30,7 @@
         <ion-col>
           <ion-item>
             <p>Description</p>
-            <h3>{{template.description}}</h3>
+            <h3>{{template?.description}}</h3>
           </ion-item>
         </ion-col>
       </ion-row>

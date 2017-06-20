@@ -11,14 +11,6 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Users</ion-title>
-
-    <ion-buttons end>
-      <button ion-button icon-only color="royal" (click)="store()">
-        <ion-icon name="person-add"></ion-icon>
-      </button>
-
-
-    </ion-buttons>
   </ion-navbar>
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
@@ -31,7 +23,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-list no-margin>
+
+  <ion-fab bottom right>
+    <button ion-fab (click)="store()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-list no-margin [hidden]="items.length === 0">
     <ion-item-divider sticky>
       <ion-label>
         Users Active
@@ -59,10 +58,9 @@
           </button>
         </ion-item-options>
       </ion-item-sliding>
-
     </ion-item-group>
-
-
   </ion-list>
-
+  <ion-list-header no-lines [hidden]="items.length > 0">
+    No User Found
+  </ion-list-header>
 </ion-content>

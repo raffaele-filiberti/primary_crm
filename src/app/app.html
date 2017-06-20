@@ -3,12 +3,13 @@
 
     <ion-content>
       <div class="thumbnail">
-        <div class="heading">
+        <ion-item no-lines class="heading" [hidden]="!user">
           <ion-avatar item-start>
+            {{ user?.name | avatarfirstchar }}
           </ion-avatar>
-          <h2>Lorem Ipsum</h2>
-          <p>Lorem ipsum dolor sit amet</p>
-        </div>
+          <h5>{{ user?.name }}</h5>
+          <p>{{ user?.email }}</p>
+        </ion-item>
       </div>
       <ion-list no-lines>
         <!--<ion-list-header class="item item-md list-header list-header-md">-->
@@ -16,7 +17,11 @@
         <!--Navigate-->
         <!--</ion-label>-->
         <!--</ion-list-header>-->
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" [hidden]="user?.roles[0]?.id > p.role">
+          <ion-icon [name]="p.icon" item-start></ion-icon>
+          {{p.title}}
+        </button>
+        <button menuClose ion-item *ngFor="let p of customerPages" (click)="openPage(p)" [hidden]="user?.roles[0]?.id != p.role">
           <ion-icon [name]="p.icon" item-start></ion-icon>
           {{p.title}}
         </button>

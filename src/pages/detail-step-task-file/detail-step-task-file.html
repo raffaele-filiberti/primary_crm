@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar no-border-bottom color="primary">
+    <ion-title>New File</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-fab bottom right>
+    <label ion-fab>
+      <ion-icon name="add"></ion-icon>
+      <input type="file" [(ngModel)]="file.name" style="display: none;" (change)="fileChange(event)">
+    </label>
+  </ion-fab>
+  <div>
+
+    <ion-item>
+      <ion-label class="button button-md custom-file-upload">
+        <input type="file" style="display: none;">
+          Upload
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea [(ngModel)]="file.description" type="text"></ion-textarea>
+    </ion-item>
+  </div>
+
+</ion-content>

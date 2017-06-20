@@ -1,31 +1,116 @@
-<ion-content>
-    <ion-grid>
-        <ion-row align-items-center>
-            <ion-col col-lg-4 offset-lg-4>
-                <div>
-                    <h1>Login</h1>
-                    <p>insert your credentials</p>
-                    <ion-list>
+<ion-content class="hero">
+  <ion-grid>
+    <ion-row align-items-center>
+      <ion-col col-lg-4 offset-lg-4>
+        <div class="hero">
+          <ion-segment [(ngModel)]="choice" color="primary" class="hero-header" (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="login">
+              Login
+            </ion-segment-button>
+            <ion-segment-button value="register">
+              Register
+            </ion-segment-button>
+            <ion-segment-button value="subscribe">
+              Subscribe
+            </ion-segment-button>
+          </ion-segment>
+          <ng-container [ngSwitch]="choice">
+            <div *ngSwitchCase="'login'" class="hero-content">
+              <h3>Login</h3>
+              <p>insert your credentials</p>
+              <div>
 
-                        <ion-item>
-                            <ion-label floating>Email</ion-label>
-                            <ion-input [(ngModel)]="email" type="text" value=""></ion-input>
-                        </ion-item>
+                <ion-item>
+                  <ion-label floating>Email</ion-label>
+                  <ion-input [(ngModel)]="email" type="text" value=""></ion-input>
+                </ion-item>
 
-                        <ion-item>
-                            <ion-label floating>Password</ion-label>
-                            <ion-input [(ngModel)]="password" type="password" value=""></ion-input>
-                        </ion-item>
+                <ion-item>
+                  <ion-label floating>Password</ion-label>
+                  <ion-input [(ngModel)]="password" type="password" value=""></ion-input>
+                </ion-item>
 
-                        <ion-item padding>
-                            <button ion-button color="primary" block (click)="login()">Sign In</button>
-                        </ion-item>
 
-                    </ion-list>
-                </div>
+                <button ion-button margin-top color="primary" block (click)="login()">Sign In</button>
 
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+
+              </div>
+            </div>
+            <div *ngSwitchCase="'register'" class="hero-content">
+              <h3>Register</h3>
+              <p>Create your own agency</p>
+              <div>
+
+                <ion-item>
+                  <ion-label floating>Agency Name</ion-label>
+                  <ion-input [(ngModel)]="r_agency" type="text" value=""></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label floating>Name</ion-label>
+                  <ion-input [(ngModel)]="r_name" type="text" value=""></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label floating>Email</ion-label>
+                  <ion-input [(ngModel)]="r_email" type="text" value=""></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label floating>Password</ion-label>
+                  <ion-input [(ngModel)]="r_password" type="password" value=""></ion-input>
+                </ion-item>
+
+
+                <button ion-button margin-top color="primary" block (click)="register()">Sign In</button>
+
+
+              </div>
+            </div>
+            <div *ngSwitchCase="'subscribe'" class="hero-content">
+              <h1>Subscribe</h1>
+              <p>Are you a customer of an agency that use Primary CRM? Subscribe to it!</p>
+              <div>
+
+                <ion-item>
+                  <ion-label floating>Agency Name</ion-label>
+                  <ion-select [(ngModel)]="selected_agency_id" (ngModelChange)="displayCustomers($event)">
+                    <ion-option *ngFor="let agency of agencies" [value]="agency.id">{{agency.name}}</ion-option>
+                  </ion-select>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label floating>Customer Name</ion-label>
+                  <ion-select [(ngModel)]="selected_customer_id" [disabled]="not_finded_agency">
+                    <ion-option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}</ion-option>
+                  </ion-select>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label floating>Name</ion-label>
+                  <ion-input [(ngModel)]="s_name" type="text" value=""></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label floating>Email</ion-label>
+                  <ion-input [(ngModel)]="s_email" type="text" value=""></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label floating>Password</ion-label>
+                  <ion-input [(ngModel)]="s_password" type="password" value=""></ion-input>
+                </ion-item>
+
+
+                <button ion-button margin-top color="primary" block (click)="subscribe()">Sign In</button>
+
+
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

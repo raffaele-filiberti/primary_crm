@@ -16,7 +16,7 @@ export class ProjectsServiceProvider {
   }
 
   index(customer_id:number){
-    let url:string = "https://multi-tenancy-crm.herokuapp.com/api/customers/"+customer_id+"/projects";
+    let url:string = "https://multi-tenancy-crm.herokuapp.com/api/customers/"+ customer_id +"/projects";
     return this.http.get(url).map((res:any) => res.json());
   }
 

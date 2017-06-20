@@ -16,14 +16,14 @@ export class AuthProvider {
     this.storage.get("token")
   }
 
-  refresh() {
-    let url: string = "https://multi-tenancy-crm.herokuapp.com/api/refresh?token=" + this.storage.get("token");
-    return this.http.get(url)
-      .subscribe(
-        (res: Response) => {
-          let token: string = res.headers.get("Authorization").replace("Bearer", "");
-          this.storage.set("token", token.replace(/\s+/g, ''));
-        });
+  refresh(token) {
+      let url: string = "https://multi-tenancy-crm.herokuapp.com/api/refresh?token=" + token;
+      return this.http.get(url)
+        .subscribe(
+          (res: Response) => {
+            let token: string = res.headers.get("Authorization").replace("Bearer", "");
+            this.storage.set("token", token.replace(/\s+/g, ''));
+          });
   }
 
   authenticated() {
@@ -37,7 +37,7 @@ export class AuthProvider {
           console.log("time: " + ((this.jwtHelper.getTokenExpirationDate(token).getTime() - new Date().getTime()) / 1000) / 60);
           if ((((this.jwtHelper.getTokenExpirationDate(token).getTime() - new Date().getTime()) / 1000) / 60) < 30) {
             console.log('token in refreshing');
-            this.refresh();
+            this.refresh(token);
           }
           return true;
         }

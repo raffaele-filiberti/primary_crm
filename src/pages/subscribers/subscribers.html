@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar no-border-bottom color="white">
+  <ion-navbar no-border-bottom color="primary">
     <ion-title>Subscribers</ion-title>
     <ion-buttons end>
 
@@ -25,9 +25,7 @@
 
 <ion-content>
 
-  <p padding *ngIf="!users?.length">No customers yet, please add <a (click)="store()">new</a> one!</p>
-
-  <ion-list *ngIf="users?.length">
+  <ion-list no-margin [hidden]="items.length === 0">
 
     <ion-item-divider sticky>
       <ion-label>
@@ -57,4 +55,7 @@
       </ion-item-sliding>
     </ion-item-group>
   </ion-list>
+  <ion-list-header no-lines [hidden]="items.length > 0">
+    No Subscriber Found
+  </ion-list-header>
 </ion-content>

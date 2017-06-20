@@ -3,10 +3,6 @@ import { Events, IonicPage } from 'ionic-angular';
 import {UsersPage} from "../users/users";
 import {SubscribersPage} from "../subscribers/subscribers";
 
-@IonicPage({
-  name: 'users'
-
-})
 @Component({
   templateUrl: 'users-tab.html'
 })

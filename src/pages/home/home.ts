@@ -15,15 +15,11 @@ export class HomePage {
               public navParams: NavParams,
               public menuCtrl: MenuController,
               public storage: Storage) {
-
+    this.user = navParams.data.user;
   }
 
   ionViewDidLoad() {
-      console.log('ionViewDidLoad HomePage');
-      this.menuCtrl.enable(true, 'authenticated');
-      this.storage.get('authUser').then((authUser) => {
-        this.user = JSON.parse(authUser);
-      });
+    //
   }
 
 }

@@ -14,6 +14,7 @@ export class AvatarFirstCharPipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(value: string): string {
-    return value.charAt(0);
+    if(value)
+      return value.charAt(0);
   }
 }

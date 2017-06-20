@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpModule, RequestOptions} from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {DeepLinkConfig, DeepLinkMetadata, IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -69,6 +69,15 @@ import {DetailsStorePage} from "../pages/details-store/details-store";
 import {DetailsViewPage} from "../pages/details-view/details-view";
 import { StepServiceProvider } from '../providers/step-service/step-service';
 import { DetailServiceProvider } from '../providers/detail-service/detail-service';
+import {DetailStepTaskPage} from "../pages/detail-step-task/detail-step-task";
+import {NotificationsPage} from "../pages/notifications/notifications";
+import {DetailStepTaskDatePage} from "../pages/detail-step-task-date/detail-step-task-date";
+import {DetailStepTaskFilePage} from "../pages/detail-step-task-file/detail-step-task-file";
+import { FileServiceProvider } from '../providers/file-service/file-service';
+import { DateServiceProvider } from '../providers/date-service/date-service';
+import {HeroTabsPage} from "../pages/hero-tabs/hero-tabs";
+import {RegisterPage} from "../pages/register/register";
+import {SubscribePage} from "../pages/subscribe/subscribe";
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({noJwtError: true}), http, options);
@@ -122,15 +131,60 @@ export function getAuthHttp(http, storage) {
     DetailsEditPage,
     DetailsStorePage,
     DetailsViewPage,
-
+    DetailStepTaskPage,
+    DetailStepTaskDatePage,
+    DetailStepTaskFilePage,
+    NotificationsPage,
+    HeroTabsPage,
+    SubscribePage,
+    RegisterPage,
     //Pipe
     AvatarFirstCharPipe,
-    FileSizePipe
+    FileSizePipe,
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {}, {
+      links: [
+        {component: HeroTabsPage, name: 'HeroTabsPage', segment: 'hero'},
+        {component: SubscribePage, name: 'SubscribePage', segment: 'subscribe'},
+        {component: RegisterPage, name: 'RegisterPage', segment: 'register'},
+        {component: LoginPage, name: 'LoginPage', segment: 'login'},
+        {component: HomePage, name: 'HomePage', segment: 'dashboard'},
+        {component: UsersTabPage, name: 'UsersTabPage', segment: 'contacts'},
+        {component: UsersPage, name: 'UsersPage', segment: 'users'},
+        {component: UsersViewPage, name: 'UsersViewPage', segment: 'users/:id'},
+        {component: UsersStorePage, name: 'UsersStorePage', segment: 'users/store'},
+        {component: UsersEditPage, name: 'UsersEditPage', segment: 'users/:id/edit'},
+        {component: SubscribersPage, name: 'SubscribersPage', segment: 'subscribers'},
+        {component: TemplatesPage, name: 'TemplatesPage', segment: 'templates'},
+        {component: TemplatesViewPage, name: 'TemplatesViewPage', segment: 'templates/:id'},
+        {component: TemplatesStorePage, name: 'TemplatesStorePage', segment: 'templates/store'},
+        {component: TemplatesEditPage, name: 'TemplatesEditPage', segment: 'templates/:id/edit'},
+        {component: StepsPage, name: 'StepsPage', segment: 'templates/:template_id/steps'},
+        {component: StepsViewPage, name: 'StepsViewPage', segment: 'templates/:template_id/steps/:id'},
+        {component: StepsStorePage, name: 'StepsStorePage', segment: 'templates/:template_id/steps/store'},
+        {component: StepsEditPage, name: 'StepsEditPage', segment: 'templates/:template_id/steps/:id/edit'},
+        {component: DetailsPage, name: 'DetailsPage', segment: 'templates/:template_id/steps/:step_id/details'},
+        {component: DetailsViewPage, name: 'DetailsViewPage', segment: 'templates/:template_id/steps/:step_id/details/:id'},
+        {component: DetailsStorePage, name: 'DetailsStorePage', segment: 'templates/:template_id/steps/:step_id/details/store'},
+        {component: DetailsEditPage, name: 'DetailsEditPage', segment: 'templates/:template_id/steps/:step_id/details/:id/edit'},
+        {component: CustomersPage, name: 'CustomersPage', segment: 'customers'},
+        {component: CustomersViewPage, name: 'CustomersViewPage', segment: 'customers/:id'},
+        {component: CustomersStorePage, name: 'CustomersStorePage', segment: 'customers/store'},
+        {component: CustomersEditPage, name: 'CustomersEditPage', segment: 'customers/:id/edit'},
+        {component: ProjectsPage, name: 'ProjectsPage', segment: 'customers/:customer_id/projects'},
+        {component: ProjectsViewPage, name: 'ProjectsViewPage', segment: 'customers/:customer_id/projects/:id'},
+        {component: ProjectsStorePage, name: 'ProjectsStorePage', segment: 'customers/:customer_id/projects/store'},
+        {component: ProjectsEditPage, name: 'ProjectsEditPage', segment: 'customers/:customer_id/projects/:id/edit'},
+        {component: TasksPage, name: 'TasksPage', segment: 'customers/:customer_id/projects/:project_id/tasks'},
+        {component: TasksViewPage, name: 'TasksViewPage', segment: 'customers/:customer_id/projects/:project_id/tasks/:id'},
+        {component: TasksStorePage, name: 'TasksStorePage', segment: 'customers/:customer_id/projects/:project_id/tasks/store'},
+        {component: TasksEditPage, name: 'TasksEditPage', segment: 'customers/:customer_id/projects/:project_id/tasks/:id/edit'}
+
+      ]
+    }),
     CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot({
       name: '__primarydb',
@@ -172,7 +226,14 @@ export function getAuthHttp(http, storage) {
     DetailsPage,
     DetailsEditPage,
     DetailsStorePage,
-    DetailsViewPage
+    DetailsViewPage,
+    DetailStepTaskPage,
+    DetailStepTaskDatePage,
+    DetailStepTaskFilePage,
+    NotificationsPage,
+    HeroTabsPage,
+    RegisterPage,
+    SubscribePage
   ],
   providers: [
     StatusBar,
@@ -188,7 +249,10 @@ export function getAuthHttp(http, storage) {
     TasksServiceProvider,
     TemplateServiceProvider,
     StepServiceProvider,
-    DetailServiceProvider
+    DetailServiceProvider,
+    FileServiceProvider,
+    DateServiceProvider,
   ]
 })
+
 export class AppModule {}

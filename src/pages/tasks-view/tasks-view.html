@@ -7,115 +7,34 @@
 <ion-header>
 
   <ion-navbar no-border-bottom color="primary">
-    <button ion-button icon-only menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>{{task.name}}</ion-title>
-
-    <ion-buttons end>
-      <button ion-button icon-only color="royal" (click)="store()">
-        <ion-icon name="person-add"></ion-icon>
-      </button>
-
-
-    </ion-buttons>
   </ion-navbar>
-  <ion-toolbar no-border-top primary>
-    <ion-searchbar
-      [(ngModel)]="queryText"
-      (ionInput)="getItems($event)"
-      placeholder="Search">
-    </ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item-group *ngFor="let step of task.steps">
+    <ion-item-group *ngFor="let step of task.steps; let s_count = index">
 
       <ion-item-divider sticky>
         <ion-label>
           {{step.name}}
         </ion-label>
+        <ion-note item-end class="date">{{ task.step_task[s_count].expiring_date | date: 'longDate'}}</ion-note>
       </ion-item-divider>
 
-      <ion-item-sliding *ngFor="let detail of step.details" [attr.track]="step.pivot.status">
+      <ion-item-sliding *ngFor="let detail of step.details; let d_count = index" [attr.track]="step.pivot.status">
         <!-- TODO: click view function -->
-        <button ion-item>
+        <ion-item (click)="view(s_count, d_count, detail)" [ngClass]="{success: task.step_task[s_count].detail_step_task[d_count].status == 1, danger: task.step_task[s_count].detail_step_task[d_count].status == 0, warning: task.step_task[s_count].detail_step_task[d_count].status == 2}">
           <h3>{{detail.name}}</h3>
-          <p>{{detail?.description}}<br>
+          <p>
             {{(detail.roled)? "Agency" : "Customer"}}
             {{(detail.detail_type)? "Date Picker" : "File Upload"}}
           </p>
-        </button>
+        </ion-item>
 
       </ion-item-sliding>
 
     </ion-item-group>
 
   </ion-list>
-  <!--<div [ngSwitch]="segment">-->
-    <!--<ng-container *ngFor="let step of task.steps; let s_count = index">-->
-      <!--<ion-list *ngSwitchCase="step.name">-->
-        <!--<ion-item *ngFor="let detail of step.details; let d_count = index" [attr.status]="detail.tracks[0] | lowercase">-->
-          <!--<ion-card>-->
-            <!--<ion-card-header>-->
-              <!--{{detail.name}}-->
-            <!--</ion-card-header>-->
-            <!--<ion-card-content>-->
-              <!--<p *ngIf="detail.description">{{detail.description}}</p>-->
-              <!--<ion-list *ngIf="detail.detail_type == 0 && detail.roled == 0 && task.step_task[s_count].detail_step_task[d_count]">-->
-                <!--<ion-item *ngFor="let file of task.step_task[s_count].detail_step_task[d_count].files">-->
-                  <!--<ion-icon name="document" item-left></ion-icon>-->
-                  <!--<h2>{{ file.filename }}</h2>-->
-                  <!--<h3>{{ file.mime}}</h3>-->
-                  <!--<p>{{ file.description }}</p>-->
-                  <!--<ion-note item-end>{{file.size | fileSize }}</ion-note>-->
-                <!--</ion-item>-->
-              <!--</ion-list>-->
-              <!--<ion-list *ngIf="detail.detail_type == 0 && detail.roled == 1 && task.step_task[s_count].detail_step_task[d_count]">-->
-                <!--<ion-item *ngFor="let file of task.step_task[s_count].detail_step_task[d_count].files">-->
-                  <!--<ion-icon name="document" item-left></ion-icon>-->
-                  <!--<h2>{{ file.filename }}</h2>-->
-                  <!--<h3>{{ file.mime}}</h3>-->
-                  <!--<p>{{ file.description }}</p>-->
-                  <!--<ion-note item-end>{{file.size | fileSize }}</ion-note>-->
-                <!--</ion-item>-->
-              <!--</ion-list>-->
-              <!--<ion-list *ngIf="detail.detail_type == 1 && detail.roled == 0 && task.step_task[s_count].detail_step_task[d_count]">-->
-                <!--<ion-item *ngFor="let date of task.step_task[s_count].detail_step_task[d_count].dates">-->
-                  <!--<ion-icon name="calendar" item-left></ion-icon>-->
-                  <!--<h2>{{ date.data }}</h2>-->
-                  <!--<h3>{{ date.pivot.status }}</h3>-->
-                  <!--<p>{{ date.description }}</p>-->
-                  <!--<ion-note item-end>{{file.size | fileSize }}</ion-note>-->
-                <!--</ion-item>-->
-              <!--</ion-list>-->
-              <!--<ion-list *ngIf="detail.detail_type == 1 && detail.roled == 1 && task.step_task[s_count].detail_step_task[d_count]">-->
-                <!--<ion-item *ngFor="let date of task.step_task[s_count].detail_step_task[d_count].dates">-->
-                  <!--<ion-icon name="calendar" item-left></ion-icon>-->
-                  <!--<h2>{{ date.data }}</h2>-->
-                  <!--<h3>{{ date.pivot.status }}</h3>-->
-                  <!--<p>{{ date.description }}</p>-->
-                  <!--<ion-note item-end>{{file.size | fileSize }}</ion-note>-->
-                <!--</ion-item>-->
-              <!--</ion-list>-->
-              <!--tipo: {{detail.detail_type}}<br>-->
-              <!--ruolo: {{detail.roled}}-->
-            <!--</ion-card-content>-->
-          <!--</ion-card>-->
-        <!--</ion-item>-->
-      <!--</ion-list>-->
-    <!--</ng-container>-->
-  <!--</div>-->
-  <ion-fab right bottom>
-    <button ion-fab>
-      <ion-icon name="add"></ion-icon>
-    </button>
-    <ion-fab-list side="top">
-      <button ion-fab><ion-icon name="send"></ion-icon></button>
-      <button ion-fab><ion-icon name="alarm"></ion-icon></button>
-      <button ion-fab><ion-icon name="document"></ion-icon></button>
-    </ion-fab-list>
-  </ion-fab>
 </ion-content>

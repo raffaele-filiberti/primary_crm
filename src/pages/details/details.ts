@@ -34,6 +34,7 @@ export class DetailsPage {
               private storage:Storage) {
     this.template_id = navParams.get('template_id');
     this.step_id = navParams.get('step_id');
+    this.items = new Array<Detail>();
     this.index();
   }
 

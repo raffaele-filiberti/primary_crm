@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
-import {Customer} from "../../models/User";
 import {ProjectsServiceProvider} from "../../providers/project-service/project-service";
 import {Project} from "../../models/Project";
 import {TasksPage} from "../tasks/tasks";
 import {ProjectsStorePage} from "../projects-store/projects-store";
 import {ProjectsEditPage} from "../projects-edit/projects-edit";
 import {ProjectsViewPage} from "../projects-view/projects-view";
+import {Customer} from "../../models/User";
 
 /**
  * Generated class for the ProjectsPage page.
@@ -20,7 +20,7 @@ import {ProjectsViewPage} from "../projects-view/projects-view";
   templateUrl: 'projects.html',
 })
 export class ProjectsPage {
-  customer_id: number;
+  customer: Customer;
   projects: Array<Project>;
   searchQuery: string = '';
   items: Array<Project>;
@@ -31,7 +31,8 @@ export class ProjectsPage {
               public events: Events,
               public loadingCtrl: LoadingController,
               private projectsService: ProjectsServiceProvider) {
-    this.customer_id = this.navParams.get('customer_id');
+    this.customer = navParams.data.customer;
+    this.items = new Array<Project>();
     this.index();
   }
 
@@ -50,7 +51,7 @@ export class ProjectsPage {
 
   index() {
     this.presentLoading();
-    this.projectsService.index(this.customer_id)
+    this.projectsService.index(this.customer.id)
       .subscribe(
         data => {
           this.projects = data.projects;
@@ -90,26 +91,28 @@ export class ProjectsPage {
 
   store() {
     this.navCtrl.push(ProjectsStorePage, {
-      customer_id: this.customer_id,
+      customer_id: this.customer.id,
     });
   }
 
   edit(project:Project) {
     this.navCtrl.push(ProjectsEditPage, {
-      customer_id: this.customer_id,
+      customer_id: this.customer.id,
+      project_id: project.id,
       project: project
     });
   }
 
   view(project:Project) {
     this.navCtrl.push(ProjectsViewPage, {
-      customer_id: this.customer_id,
+      customer_id: this.customer.id,
+      project_id: project.id,
       project: project
     });
   }
 
   delete(project:Project) {
-    this.projectsService.delete(this.customer_id, project.id)
+    this.projectsService.delete(this.customer.id, project.id)
       .subscribe(
         data => {
           this.projects.splice(this.projects.findIndex(x => x.id == project.id), 1);
@@ -120,8 +123,10 @@ export class ProjectsPage {
 
   tasks(project:Project) {
     this.navCtrl.push(TasksPage, {
-      customer_id: this.customer_id,
-      project_id: project.id
+      customer_id: this.customer.id,
+      project_id: project.id,
+      customer: this.customer,
+      project: project
     });
   }
 

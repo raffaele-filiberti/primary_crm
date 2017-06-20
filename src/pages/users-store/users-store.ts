@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {Events, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
 import {UsersServiceProvider} from "../../providers/users-service/users-service";
 import {Customer, Role, User} from "../../models/User";
 import {RoleServiceProvider} from "../../providers/role-service/role-service";
@@ -29,7 +29,9 @@ export class UsersStorePage {
               public loadingCtrl: LoadingController,
               private UserService: UsersServiceProvider,
               private CustomerService: CustomerServiceProvider,
-              private RoleService: RoleServiceProvider) {
+              private RoleService: RoleServiceProvider,
+              public viewCtrl: ViewController,
+              public events: Events) {
     this.user = new User();
     this.old_role = new Role();
     this.old_customer = new Customer();
@@ -71,9 +73,12 @@ export class UsersStorePage {
   }
 
   store() {
+    this.presentLoading();
     this.UserService.store(this.user.name, this.user.email, this.user.password, this.old_role.id, this.user.first_name, this.user.last_name, this.user.cell_phone, this.user.fax, this.user.address, this.user.postcode, this.user.province, this.user.nation, this.old_customer.id)
       .subscribe(
         data => {
+          this.events.publish('functionCall:loadUsers');
+          this.loader.dismiss();
           this.navCtrl.pop();
         },
         error => {
@@ -82,5 +87,4 @@ export class UsersStorePage {
         () => console.log('User Created Successfully')
       )
   }
-
 }

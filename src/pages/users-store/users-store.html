@@ -6,9 +6,9 @@
 -->
 <ion-header>
 
-    <ion-navbar color="white">
-    <ion-title>New user</ion-title>
-    <ion-buttons end>
+  <ion-navbar no-border-bottom color="primary">
+      <ion-title>New User</ion-title>
+      <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="store()">
         <ion-icon name="checkmark"></ion-icon>
       </button>
@@ -19,7 +19,7 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <div>
 
     <ion-item>
       <ion-label floating>Username</ion-label>
@@ -96,7 +96,7 @@
       <ion-input [(ngModel)]="user.fax" type="text"></ion-input>
     </ion-item>
 
-  </ion-list>
+  </div>
 
 
 

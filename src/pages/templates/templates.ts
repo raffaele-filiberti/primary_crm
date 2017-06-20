@@ -28,6 +28,7 @@ export class TemplatesPage {
               public events: Events,
               public loadingCtrl: LoadingController,
               private templateService: TemplateServiceProvider) {
+    this.items = new Array<Template>();
     this.index();
   }
 
@@ -79,10 +80,6 @@ export class TemplatesPage {
       })
     }
   }
-
-
-
-
 
   store() {
     this.navCtrl.push(TemplatesStorePage);

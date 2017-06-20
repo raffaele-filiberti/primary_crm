@@ -31,6 +31,7 @@ export class StepsPage {
               public loadingCtrl: LoadingController,
               private stepService: StepServiceProvider) {
     this.template_id = navParams.get('template_id');
+    this.items = new Array<Step>();
     this.index();
   }
 

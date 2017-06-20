@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="white">
+  <ion-navbar no-border-bottom color="primary">
     <ion-title>Edit Steps</ion-title>
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="edit()">
@@ -19,7 +19,7 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <div>
     <ion-item>
       <ion-label floating>Name</ion-label>
       <ion-input [(ngModel)]="step.name" type="text"></ion-input>
@@ -29,5 +29,5 @@
       <ion-label floating>Description</ion-label>
       <ion-input [(ngModel)]="step.description" type="text"></ion-input>
     </ion-item>
-  </ion-list>
+  </div>
 </ion-content>

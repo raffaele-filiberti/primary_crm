@@ -29,6 +29,7 @@ export class CustomersPage {
               public loadingCtrl: LoadingController,
               private customerService: CustomerServiceProvider,
               private storage: Storage) {
+    this.items = new Array<Customer>();
     this.index();
   }
 
@@ -87,12 +88,14 @@ export class CustomersPage {
 
   edit(customer:Customer) {
     this.navCtrl.push(CustomersEditPage, {
+      customer_id: customer.id,
       customer: customer
     });
   }
 
   view(customer:Customer) {
     this.navCtrl.push(CustomersViewPage, {
+      customer_id: customer.id,
       customer: customer
     });
   }
@@ -109,7 +112,8 @@ export class CustomersPage {
 
   projects(customer:Customer) {
     this.navCtrl.push(ProjectsPage, {
-      customer_id: customer.id
+      customer_id: customer.id,
+      customer: customer
     });
   }
 

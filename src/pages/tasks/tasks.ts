@@ -5,6 +5,8 @@ import {TasksEditPage} from "../tasks-edit/tasks-edit";
 import {TasksViewPage} from "../tasks-view/tasks-view";
 import {TasksServiceProvider} from "../../providers/tasks-service/tasks-service";
 import { Task } from "../../models/Task";
+import {Project} from "../../models/Project";
+import {Customer} from "../../models/User";
 /**
  * Generated class for the TasksPage page.
  *
@@ -21,23 +23,28 @@ import { Task } from "../../models/Task";
 export class TasksPage {
   customer_id: number;
   project_id: number;
+  customer: Customer;
+  project: Project;
   tasks: Array<Task>;
   searchQuery: string = '';
   items: Array<Task>;
   loader: any;
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
               private tasksService: TasksServiceProvider) {
-    this.customer_id = this.navParams.get('customer_id');
-    this.project_id = this.navParams.get('project_id');
+    this.customer = navParams.data.customer;
+    this.project = navParams.data.project;
+    this.items = new Array<Task>();
     this.index();
+    console.log('COSTRUCTOR');
   }
 
   ionViewDidLoad() {
-    this.events.subscribe('functionCall:loadTask', eventData => {
+    this.events.subscribe('functionCall:loadTasks', () => {
       this.index();
     });
   }
@@ -51,7 +58,7 @@ export class TasksPage {
 
   index() {
     this.presentLoading();
-    this.tasksService.index(this.customer_id, this.project_id)
+    this.tasksService.index(this.customer.id, this.project.id)
       .subscribe(
         data => {
           this.tasks = data.tasks;
@@ -90,41 +97,43 @@ export class TasksPage {
     }
   }
 
-
-
-
-
   store() {
     this.navCtrl.push(TasksStorePage, {
-      customer_id: this.customer_id,
-      project_id: this.project_id,
-
+      customer_id: this.customer.id,
+      project_id: this.project.id,
     });
   }
 
   edit(task:Task) {
     this.navCtrl.push(TasksEditPage, {
-      customer_id: this.customer_id,
-      project_id: this.project_id,
+      customer_id: this.customer.id,
+      project_id: this.project.id,
+      task_id: task.id,
       task: task
     });
   }
 
   view(task:Task) {
     this.navCtrl.push(TasksViewPage, {
-      customer_id: this.customer_id,
-      project_id: this.project_id,
+      customer_id: this.customer.id,
+      project_id: this.project.id,
+      task_id: task.id,
+      customer: this.customer,
+      project: this.project,
       task: task
     });
   }
 
   delete(task:Task) {
-    this.tasksService.delete(this.customer_id, this.project_id, task.id)
+    this.tasksService.delete(this.customer.id, this.project.id, task.id)
       .subscribe(
         data => {
           this.tasks.splice(this.tasks.findIndex(x => x.id == task.id), 1);
-          console.log(data.status);
-        }
+        },
+        error => {
+          console.log(error);
+        },
+        () => console.log('Task Deleted')
       );
   }
 

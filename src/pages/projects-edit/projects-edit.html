@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-    <ion-navbar color="white">
+  <ion-navbar no-border-bottom color="primary">
     <ion-title>Edit Project</ion-title>
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="edit()">
@@ -18,7 +18,7 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <div>
     <ion-item>
       <ion-label floating>Name</ion-label>
       <ion-input [(ngModel)]="project.name" type="text"></ion-input>
@@ -28,5 +28,5 @@
       <ion-label floating>Description</ion-label>
       <ion-input [(ngModel)]="project.description" type="text"></ion-input>
     </ion-item>
-  </ion-list>
+  </div>
 </ion-content>

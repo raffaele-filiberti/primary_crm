@@ -1,17 +1,9 @@
-<!--
-  Generated template for the UsersStorePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<script src="../../../../../Documents/GitHub/CRM_Client/src/app/Components/user-edit/user-edit.component.ts"></script>
 <ion-header>
 
-    <ion-navbar color="white">
-    <ion-title>Edit user</ion-title>
+  <ion-navbar no-border-bottom color="primary">
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="edit()">
-        <ion-icon name="checkmark"></ion-icon>
+        store
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -20,7 +12,7 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <div>
 
     <ion-item>
       <ion-label floating>Username</ion-label>
@@ -39,14 +31,14 @@
 
     <ion-item>
       <ion-label floating>Customer</ion-label>
-      <ion-select [ngModel]="user?.customers[0]?.id" (ngModelChange)="addCustomer($event)">
+      <ion-select [ngModel]="old_customer?.id" (ngModelChange)="addCustomer($event)">
         <ion-option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Role</ion-label>
-      <ion-select [ngModel]="user?.roles[0]?.id" (ngModelChange)="addRole($event)">
+      <ion-select [ngModel]="old_role?.id" (ngModelChange)="addRole($event)">
         <ion-option *ngFor="let role of roles" [value]="role.id">{{role.display_name}}</ion-option>
       </ion-select>
     </ion-item>
@@ -97,7 +89,7 @@
       <ion-input [(ngModel)]="user.fax" type="text"></ion-input>
     </ion-item>
 
-  </ion-list>
+  </div>
 
 
 </ion-content>

@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="white">
+  <ion-navbar no-border-bottom color="primary">
     <ion-title>New Detail</ion-title>
     <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="store()">
@@ -19,7 +19,7 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <div>
     <ion-item>
       <ion-label floating>Name</ion-label>
       <ion-input [(ngModel)]="detail.name" type="text"></ion-input>
@@ -40,5 +40,5 @@
         <ion-option value="1">Date Picker</ion-option>
       </ion-select>
     </ion-item>
-  </ion-list>
+  </div>
 </ion-content>
