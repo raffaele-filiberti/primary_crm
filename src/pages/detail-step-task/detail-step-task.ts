@@ -239,7 +239,7 @@ export class DetailStepTaskPage {
     this.fileService.approve(this.customer.id, this.project.id, this.task.id, this.detail_step_task.step_task_id, this.detail_step_task.id, file.id)
       .subscribe(
         data => {
-          this.detail_step_task.dates[this.detail_step_task.dates.findIndex(x => x.id == file.id)].pivot.status = 1;
+          this.detail_step_task.files[this.detail_step_task.files.findIndex(x => x.id == file.id)].pivot.status = 1;
           this.loader.dismiss();
         },
         error => {
@@ -254,7 +254,7 @@ export class DetailStepTaskPage {
     this.fileService.disapprove(this.customer.id, this.project.id, this.task.id, this.detail_step_task.step_task_id, this.detail_step_task.id, file.id)
       .subscribe(
         data => {
-          this.detail_step_task.dates[this.detail_step_task.dates.findIndex(x => x.id == file.id)].pivot.status = 0;
+          this.detail_step_task.files[this.detail_step_task.files.findIndex(x => x.id == file.id)].pivot.status = 0;
           this.loader.dismiss();
         },
         error => {
@@ -269,7 +269,7 @@ export class DetailStepTaskPage {
     this.fileService.delete(this.customer.id, this.project.id, this.task.id, this.detail_step_task.step_task_id, this.detail_step_task.id, file.id)
       .subscribe(
         data => {
-          this.detail_step_task.dates.splice(this.detail_step_task.dates.findIndex(x => x.id == file.id), 1);
+          this.detail_step_task.files.splice(this.detail_step_task.files.findIndex(x => x.id == file.id), 1);
           this.loader.dismiss();
         },
         error => {

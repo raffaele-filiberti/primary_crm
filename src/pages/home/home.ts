@@ -10,12 +10,17 @@ import { User } from '../../models/User';
 })
 export class HomePage {
     user: User;
+    agency: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public menuCtrl: MenuController,
               public storage: Storage) {
     this.user = navParams.data.user;
+    storage.get('agency').then(agency => {
+       this.agency = JSON.parse(agency)[0];
+      console.log(this.agency);
+    })
   }
 
   ionViewDidLoad() {

@@ -67,7 +67,10 @@ export class LoginPage {
           this.storage.set("agency", JSON.stringify(data.agency));
           this.events.publish('user:login');
           this.loader.dismiss();
-          this.navCtrl.setRoot(HomePage);
+          this.navCtrl.setRoot(HomePage, {
+            agency: data.agency,
+            user: data.auth
+          });
         },
         (error:Response) => {
           this.loader.dismiss();

@@ -61,12 +61,11 @@ export class MyApp {
     private storage: Storage,
     public menuCtrl: MenuController,
     private auth: AuthProvider) {
-
+    this.user = new User();
     this.storage.get('authUser').then((authUser) => {
       if(authUser) {
         this.user = JSON.parse(authUser);
         console.log(this.user);
-
       }
     });
 

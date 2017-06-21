@@ -78,6 +78,7 @@ import { DateServiceProvider } from '../providers/date-service/date-service';
 import {HeroTabsPage} from "../pages/hero-tabs/hero-tabs";
 import {RegisterPage} from "../pages/register/register";
 import {SubscribePage} from "../pages/subscribe/subscribe";
+import { DashboardServiceProvider } from '../providers/dashboard-service/dashboard-service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({noJwtError: true}), http, options);
@@ -252,6 +253,7 @@ export function getAuthHttp(http, storage) {
     DetailServiceProvider,
     FileServiceProvider,
     DateServiceProvider,
+    DashboardServiceProvider,
   ]
 })
 
