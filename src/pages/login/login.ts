@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {Events, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {AuthProvider} from "../../providers/auth/auth";
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { Storage } from '@ionic/storage';
@@ -36,14 +36,14 @@ export class LoginPage {
   loader: any;
   choice: string = 'login';
 
-  constructor(
-    public events: Events,
-    public navCtrl: NavController,
-    public loadingCtrl: LoadingController,
-    public navParams: NavParams,
-    private loginService: LoginServiceProvider,
-    private auth: AuthProvider,
-    public storage: Storage) {
+  constructor(public events: Events,
+              public navCtrl: NavController,
+              public loadingCtrl: LoadingController,
+              public navParams: NavParams,
+              private loginService: LoginServiceProvider,
+              private auth: AuthProvider,
+              private toastCtrl: ToastController,
+              public storage: Storage) {
   }
 
   ionViewDidLoad() {
@@ -55,26 +55,6 @@ export class LoginPage {
       content: "Loading..."
     });
     this.loader.present();
-  }
-
-  login() {
-    this.presentLoading();
-    this.loginService.login(this.email, this.password)
-      .subscribe(
-        data => {
-          this.storage.set("token", data.token);
-          this.storage.set("authUser", JSON.stringify(data.auth));
-          this.storage.set("agency", JSON.stringify(data.agency));
-          this.events.publish('user:login', data.auth, data.agency);
-          this.loader.dismiss();
-        },
-        (error:Response) => {
-          this.loader.dismiss();
-          let response = error.json();
-          console.log(response.error.errors);
-        },
-        ()  => console.log('Logged in')
-      );
   }
 
   agencyIndex() {
@@ -101,8 +81,8 @@ export class LoginPage {
           this.loader.dismiss();
         },
         error => {
-console.log(error);
-this.loader.dismiss();
+          console.log(error);
+          this.loader.dismiss();
         },
         () => console.log('Customers List Completed')
       )
@@ -119,6 +99,34 @@ this.loader.dismiss();
     }
   }
 
+  login() {
+    this.presentLoading();
+    this.loginService.login(this.email, this.password)
+      .subscribe(
+        data => {
+          this.storage.set("token", data.token);
+          this.storage.set("authUser", JSON.stringify(data.auth));
+          this.storage.set("agency", JSON.stringify(data.agency));
+          this.events.publish('user:login', data.auth, data.agency);
+          this.loader.dismiss();
+        },
+        (error:Response) => {
+          let response = error.json();
+          if(response.error.errors.credentials) {
+            this.presentToast(response.error.errors.credentials[0]);
+          } else {
+            if (response.error.errors.email) {
+              this.presentToast(response.error.errors.email[0]);
+            } else {
+              this.presentToast(response.error.errors.password[0]);
+            }
+          }
+          this.loader.dismiss();
+        },
+        ()  => console.log('Logged in')
+      );
+  }
+
   subscribe() {
     this.presentLoading();
     this.loginService.signupSubscriber(this.s_name, this.s_email, this.s_password, this.selected_agency_id, this.selected_customer_id)
@@ -130,9 +138,14 @@ this.loader.dismiss();
           this.events.publish('user:login');
           this.loader.dismiss();
         },
-        error => {
-console.log(error);
-this.loader.dismiss();
+        (error:Response) => {
+          let response = error.json();
+          if(response.error.errors.email) {
+            this.presentToast(response.error.errors.email[0]);
+          } else {
+            this.presentToast(response.error.errors.password[0]);
+          }
+          this.loader.dismiss();
         },
         () => ('Subscriber Added')
       )
@@ -149,13 +162,36 @@ this.loader.dismiss();
           this.events.publish('user:login');
           this.loader.dismiss();
         },
-        error => {
-console.log(error);
-this.loader.dismiss();
+        (error:Response) => {
+          let response = error.json();
+          if(response.error && !response.error.errors) {
+            this.presentToast(response.error);
+          } else {
+            if (response.error.errors.email) {
+              this.presentToast(response.error.errors.email[0]);
+            } else {
+              this.presentToast(response.error.errors.password[0]);
+            }
+          }
+          this.loader.dismiss();
         },
         () => ('Subscriber Added')
       )
 
+  }
+
+  presentToast(msg:string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 5000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
 }

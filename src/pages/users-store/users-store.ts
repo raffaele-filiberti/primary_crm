@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import {Events, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
+import {
+  Events, IonicPage, LoadingController, NavController, NavParams, ToastController,
+  ViewController
+} from 'ionic-angular';
+import {Response} from '@angular/http';
 import {UsersServiceProvider} from "../../providers/users-service/users-service";
 import {Customer, Role, User} from "../../models/User";
 import {RoleServiceProvider} from "../../providers/role-service/role-service";
@@ -31,6 +35,7 @@ export class UsersStorePage {
               private CustomerService: CustomerServiceProvider,
               private RoleService: RoleServiceProvider,
               public viewCtrl: ViewController,
+              private toastCtrl: ToastController,
               public events: Events) {
     this.user = new User();
     this.old_role = new Role();
@@ -44,8 +49,12 @@ export class UsersStorePage {
         data => {
           this.customers = data.customers;
         },
-        error => {
-console.log(error);          this.loader.dismiss();        },
+        (error:Response) => {
+          let response = error.json();
+          console.log(response.error.errors);
+          this.presentToast(response.error.errors);
+          this.loader.dismiss();
+        },
         () => console.log('Customer List Completed')
       );
 
@@ -54,8 +63,12 @@ console.log(error);          this.loader.dismiss();        },
         data => {
           this.roles = data.roles;
         },
-        error => {
-console.log(error);          this.loader.dismiss();        },
+        (error:Response) => {
+          let response = error.json();
+          console.log(response.error.errors);
+          this.presentToast(response.error.errors);
+          this.loader.dismiss();
+        },
         () => console.log('Role List Completed')
       );
 
@@ -79,11 +92,27 @@ console.log(error);          this.loader.dismiss();        },
           this.loader.dismiss();
           this.navCtrl.pop();
         },
-        error => {
-console.log(error);
-this.loader.dismiss();
+        (error:Response) => {
+          let response = error.json();
+          console.log(response.error.errors);
+          this.presentToast(response.error.errors);
+          this.loader.dismiss();
         },
-        () => console.log('User Created Successfully')
+        () => this.presentToast('User was added successfully')
       )
+  }
+
+  presentToast(msg:string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 5000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 }
