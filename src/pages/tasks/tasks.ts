@@ -67,8 +67,7 @@ export class TasksPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Projects List Complete')
       );
   }
@@ -131,8 +130,7 @@ export class TasksPage {
           this.tasks.splice(this.tasks.findIndex(x => x.id == task.id), 1);
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Task Deleted')
       );
   }

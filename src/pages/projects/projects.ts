@@ -60,7 +60,8 @@ export class ProjectsPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
         },
         () => console.log('Projects List Complete')
       );

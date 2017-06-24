@@ -63,8 +63,7 @@ export class UsersPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Users List Complete')
       );
   }

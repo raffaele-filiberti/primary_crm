@@ -59,8 +59,7 @@ export class StepsPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Step List Complete')
       );
   }

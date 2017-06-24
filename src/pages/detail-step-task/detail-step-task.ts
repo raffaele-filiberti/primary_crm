@@ -98,8 +98,7 @@ export class DetailStepTaskPage {
           this.items = data.dates;
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Dates List Completed')
       );
   }
@@ -113,8 +112,7 @@ export class DetailStepTaskPage {
           console.log(this.detail_step_task.files);
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Files List Completed')
       );
   }

@@ -43,7 +43,8 @@ export class StepsStorePage {
 
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
         },
         () => console.log('Step Added Successfully')
       )

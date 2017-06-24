@@ -54,7 +54,9 @@ export class UsersEditPage {
           }
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Customer List Completed')
       );
@@ -69,7 +71,9 @@ export class UsersEditPage {
           console.log(this.old_role, this.old_customer);
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Role List Completed')
       );
@@ -112,14 +116,16 @@ export class UsersEditPage {
 
   edit() {
     this.presentLoading();
-    this.UserService.update(this.user.name, this.user.email, this.user.password, this.user.roles[0].id, this.user.first_name, this.user.last_name, this.user.cell_phone, this.user.fax, this.user.address, this.user.postcode, this.user.province, this.user.nation, this.user.id, (this.user.customers)? this.user.customers[0].id : null)
+    this.UserService.update(this.user.name, this.user.email, this.user.password, this.user.roles[0].id, this.user.first_name, this.user.last_name, this.user.cell_phone, this.user.fax, this.user.address, this.user.postcode, this.user.province, this.user.nation, this.user.id, (this.user.customers && this.user.customers.length)? this.user.customers[0].id : null)
       .subscribe(
         data => {
           this.navCtrl.pop();
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('User Updated Successfully')
       )

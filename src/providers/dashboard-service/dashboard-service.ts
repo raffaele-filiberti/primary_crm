@@ -15,8 +15,8 @@ export class DashboardServiceProvider {
     //
   }
 
-  cards() {
-    let url:string = "https://multi-tenancy-crm.herokuapp.com/api/cards";
+  userChart() {
+    let url:string = "https://multi-tenancy-crm.herokuapp.com/api/userChart";
     return this.http.get(url).map((res:any) => res.json());
   }
 }

@@ -42,8 +42,7 @@ export class TemplatesStorePage {
 
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Template Added Successfully')
       )
   }

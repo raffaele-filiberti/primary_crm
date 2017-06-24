@@ -65,12 +65,8 @@ export class LoginPage {
           this.storage.set("token", data.token);
           this.storage.set("authUser", JSON.stringify(data.auth));
           this.storage.set("agency", JSON.stringify(data.agency));
-          this.events.publish('user:login');
+          this.events.publish('user:login', data.auth, data.agency);
           this.loader.dismiss();
-          this.navCtrl.setRoot(HomePage, {
-            agency: data.agency,
-            user: data.auth
-          });
         },
         (error:Response) => {
           this.loader.dismiss();
@@ -105,8 +101,8 @@ export class LoginPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
-          this.loader.dismiss();
+console.log(error);
+this.loader.dismiss();
         },
         () => console.log('Customers List Completed')
       )
@@ -133,11 +129,10 @@ export class LoginPage {
           this.storage.set("agency", JSON.stringify(data.agency));
           this.events.publish('user:login');
           this.loader.dismiss();
-          this.navCtrl.setRoot(HomePage);
         },
         error => {
-          console.log(error);
-          this.loader.dismiss();
+console.log(error);
+this.loader.dismiss();
         },
         () => ('Subscriber Added')
       )
@@ -153,11 +148,10 @@ export class LoginPage {
           this.storage.set("agency", JSON.stringify(data.agency));
           this.events.publish('user:login');
           this.loader.dismiss();
-          this.navCtrl.setRoot(HomePage);
         },
         error => {
-          console.log(error);
-          this.loader.dismiss();
+console.log(error);
+this.loader.dismiss();
         },
         () => ('Subscriber Added')
       )

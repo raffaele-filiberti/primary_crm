@@ -61,7 +61,13 @@ export class MyApp {
     private storage: Storage,
     public menuCtrl: MenuController,
     private auth: AuthProvider) {
+
+    //default menu hidden
+    this.enableMenu(false);
+
     this.user = new User();
+
+    //try to find user in storage
     this.storage.get('authUser').then((authUser) => {
       if(authUser) {
         this.user = JSON.parse(authUser);
@@ -69,8 +75,8 @@ export class MyApp {
       }
     });
 
+    //token check to avoid login each time
     this.jwtHelper = new JwtHelper();
-
     this.storage.get('token')
       .then((token) => {
         if (token) {
@@ -100,6 +106,7 @@ export class MyApp {
         this.platformReady();
       });
 
+    //allow listening to events
     this.listenToLoginEvents();
   }
 
@@ -154,11 +161,13 @@ export class MyApp {
   }
 
   listenToLoginEvents() {
-    this.events.subscribe('user:login', () => {
+    this.events.subscribe('user:login', (auth, agency) => {
       this.enableMenu(true);
-      this.storage.get('authUser').then((user) => {
-        this.user = JSON.parse(user);
+      this.user = auth;
+      this.nav.setRoot(HomePage, {
+        user: this.user
       });
+
     });
 
     this.events.subscribe('user:logout', () => {

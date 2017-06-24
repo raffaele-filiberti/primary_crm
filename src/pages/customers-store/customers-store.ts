@@ -41,6 +41,8 @@ export class CustomersStorePage {
         },
         error => {
           console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Customer Added Successfully')
       )

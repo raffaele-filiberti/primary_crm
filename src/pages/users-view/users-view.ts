@@ -28,7 +28,7 @@ export class UsersViewPage {
     this.user = navParams.data.user;
     storage.get('agency')
       .then(agency => {
-        this.agency = agency
+        this.agency = JSON.parse(agency);
       });
   }
 

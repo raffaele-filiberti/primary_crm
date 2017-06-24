@@ -60,7 +60,9 @@ export class TasksStorePage {
           }
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Template List Complete')
       );
@@ -73,7 +75,9 @@ export class TasksStorePage {
           this.pms = data.users.filter(x => x.roles[0].id == 6);
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Pms List Complete')
       )
@@ -94,7 +98,9 @@ export class TasksStorePage {
           this.navCtrl.pop();
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Template List Complete')
       );

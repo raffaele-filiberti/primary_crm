@@ -47,8 +47,8 @@ export class TemplatesEditPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
-          this.loader.dismiss();
+console.log(error);
+this.loader.dismiss();
         },
         () => console.log('Template Updated Successfully')
       );

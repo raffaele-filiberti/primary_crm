@@ -47,8 +47,8 @@ export class StepsEditPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
-          this.loader.dismiss();
+console.log(error);
+this.loader.dismiss();
         },
         () => console.log('Step Updated Successfully')
       );

@@ -77,7 +77,9 @@ export class SubscribersPage {
           this.loader.dismiss();
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Users List Complete')
       );
@@ -93,7 +95,9 @@ export class SubscribersPage {
           this.navCtrl.setRoot(UsersTabPage);
         },
         error =>{
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('User Subscribed Successfully')
       );
@@ -107,7 +111,9 @@ export class SubscribersPage {
           console.log(data.status);
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('subscriber deleted succesfully')
       );

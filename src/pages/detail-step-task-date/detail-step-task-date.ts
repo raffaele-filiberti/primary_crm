@@ -51,8 +51,8 @@ export class DetailStepTaskDatePage {
           this.navCtrl.pop();
         },
         error => {
-          this.loader.dismiss();
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
         }
       )
   }

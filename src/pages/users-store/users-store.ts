@@ -45,8 +45,7 @@ export class UsersStorePage {
           this.customers = data.customers;
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Customer List Completed')
       );
 
@@ -56,8 +55,7 @@ export class UsersStorePage {
           this.roles = data.roles;
         },
         error => {
-          console.log(error);
-        },
+console.log(error);          this.loader.dismiss();        },
         () => console.log('Role List Completed')
       );
 
@@ -82,7 +80,8 @@ export class UsersStorePage {
           this.navCtrl.pop();
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
         },
         () => console.log('User Created Successfully')
       )

@@ -93,7 +93,7 @@
         <ion-col col-12 col-sm-6>
           <ion-item>
             <p>Agency</p>
-            <h3>{{(user?.customers)? user?.customers[0]?.name : agency?.name }}</h3>
+            <h3>{{(user?.customers && user?.customers?.length)? user?.customers[0]?.name : agency?.name }}</h3>
           </ion-item>
         </ion-col>
       </ion-row>

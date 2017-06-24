@@ -47,7 +47,9 @@ export class DetailsStorePage {
 
         },
         error => {
-          console.log(error);
+console.log(error);
+this.loader.dismiss();
+
         },
         () => console.log('Detail Added Successfully')
       )
