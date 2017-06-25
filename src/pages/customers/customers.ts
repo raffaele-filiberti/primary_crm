@@ -57,7 +57,9 @@ export class CustomersPage {
           this.loader.dismiss();
         },
         error => {
-console.log(error);          this.loader.dismiss();        },
+          console.log(error);
+          this.loader.dismiss();
+        },
         () => console.log('Users List Complete')
       );
   }

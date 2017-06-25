@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {Events, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Data, Detail, DetailStepTask, File, Task} from "../../models/Task";
 import {DetailStepTaskDatePage} from "../detail-step-task-date/detail-step-task-date";
 import {DetailStepTaskFilePage} from "../detail-step-task-file/detail-step-task-file";
@@ -40,6 +40,7 @@ export class DetailStepTaskPage {
               public loadingCtrl: LoadingController,
               private dateService: DateServiceProvider,
               private fileService: FileServiceProvider,
+              private toastCtrl: ToastController,
               private storage: Storage) {
 
     this.customer = navParams.data.customer;
@@ -48,12 +49,14 @@ export class DetailStepTaskPage {
     this.detail_step_task = navParams.data.detail_step_task;
     this.detail = navParams.data.detail;
     this.file = new File();
+
     storage.get('agency').then(agency => {
       if(agency) {
         //s3 bucketname format
         let bucketname: string = (JSON.parse(agency)).name.toLowerCase().replace(/\s+/g, '');
         console.log(bucketname);
 
+        //s3 config
         this.bucket = new AWS.S3({
           credentials: {
             accessKeyId: ENV.AWS_ACCESS_KEY_ID,
@@ -69,8 +72,9 @@ export class DetailStepTaskPage {
         });
       }
     });
-
     this.initializeItems();
+    this.listenToStoreEvents();
+
   }
 
   initializeItems() {
@@ -81,6 +85,18 @@ export class DetailStepTaskPage {
       this.items = (this.detail.detail_type) ? this.detail_step_task.dates : this.detail_step_task.files;
     }
   }
+
+  listenToStoreEvents() {
+    console.log('fired');
+    this.events.subscribe('file:store', (file) => {
+      this.fileIndex();
+    });
+    this.events.subscribe('date:store', (date) => {
+      this.dateIndex();
+    });
+    this.initializeItems();
+  }
+
 
   ionViewDidLoad() {
     this.events.subscribe('functionCall:loadDetailStepTasks', eventData => {
@@ -95,10 +111,12 @@ export class DetailStepTaskPage {
       .subscribe(
         data => {
           this.detail_step_task.dates = data.dates;
-          this.items = data.dates;
+          this.initializeItems();
         },
         error => {
-console.log(error);          this.loader.dismiss();        },
+          console.log(error);
+          this.loader.dismiss();
+          },
         () => console.log('Dates List Completed')
       );
   }
@@ -108,11 +126,12 @@ console.log(error);          this.loader.dismiss();        },
       .subscribe(
         data => {
           this.detail_step_task.files = data.files;
-          this.items = data.files;
-          console.log(this.detail_step_task.files);
+          this.initializeItems();
         },
         error => {
-console.log(error);          this.loader.dismiss();        },
+          console.log(error);
+          this.loader.dismiss();
+          },
         () => console.log('Files List Completed')
       );
   }
@@ -203,32 +222,38 @@ console.log(error);          this.loader.dismiss();        },
     if (val && val.trim() != '') {
       this.items = this.items.filter((item) => {
 
-        return (this.detail.detail_type) ? (item.data.toLowerCase().indexOf(val.toLowerCase()) > -1) : (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (this.detail.detail_type) ? (item.data.toLowerCase().indexOf(val.toLowerCase()) > -1) : (item.filename.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }
 
   fileChange(event) {
-    this.presentLoading();
     let fileList: Array<File> = event.target.files;
     if(fileList.length > 0) {
+      this.presentLoading();
       this.file = fileList[0];
       console.log(this.file);
-      let path: string = this.customer.name + "/" + this.project.name + "/" + this.task.name + "/";
-      let params: any = {
-        // ACL: 'public-read',
-        Key: path + this.file.name,
-        Body: this.file
-      };
-      this.fileService.store(this.customer.id, this.project.id, this.task.id, this.detail_step_task.step_task_id, this.detail_step_task.id, this.file.name, path, this.file.size, this.file.type, this.file.description)
-        .subscribe(
-          data => {
-            console.log(data);
-            this.loader.dismiss();
-          });
-      this.bucket.upload(params, function (err, data) {
-        console.log(err, data);
-      });
+      if(this.file.size < 10000000) {
+        let path: string = this.customer.name + "/" + this.project.name + "/" + this.task.name + "/";
+        let params: any = {
+          // ACL: 'public-read',
+          Key: path + this.file.name,
+          Body: this.file
+        };
+        this.fileService.store(this.customer.id, this.project.id, this.task.id, this.detail_step_task.step_task_id, this.detail_step_task.id, this.file.name, path, this.file.size, this.file.type, this.file.description)
+          .subscribe(
+            data => {
+              console.log(data);
+              this.loader.dismiss();
+            });
+        this.bucket.upload(params, function (err, data) {
+          console.log(err, data);
+        });
+        this.events.publish('file:store', this.file);
+      } else {
+        this.loader.dismiss();
+        this.presentToast('File uploaded is over 10MB');
+      }
     }
   }
 
@@ -275,5 +300,19 @@ console.log(error);          this.loader.dismiss();        },
         },
         () => console.log('File Deleted')
       )
+  }
+
+  presentToast(msg:string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 5000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 }

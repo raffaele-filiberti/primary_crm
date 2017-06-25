@@ -6,13 +6,9 @@ import {TasksViewPage} from "../tasks-view/tasks-view";
 import {TasksServiceProvider} from "../../providers/tasks-service/tasks-service";
 import { Task } from "../../models/Task";
 import {Project} from "../../models/Project";
-import {Customer} from "../../models/User";
-/**
- * Generated class for the TasksPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import {Customer, User} from "../../models/User";
+import { Storage } from '@ionic/storage';
+
 //TODO: TASK UPLOAD AND DATE PICKER IN .HTML
 //TODO: TASK STORE MISSED
 @IonicPage()
@@ -35,12 +31,28 @@ export class TasksPage {
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
+              private storage: Storage,
               private tasksService: TasksServiceProvider) {
-    this.customer = navParams.data.customer;
-    this.project = navParams.data.project;
+    this.customer = new Customer();
+    this.project = new Project();
     this.items = new Array<Task>();
-    this.index();
-    console.log('COSTRUCTOR');
+
+    storage.get('authUser').then(authUser => {
+      if(authUser) {
+        let user:User = JSON.parse(authUser);
+        if(user.customers && user.customers.length && user.roles[0].id == 6) {
+          this.customer = user.customers[0];
+          this.project.id = 0;
+        } else {
+          this.customer = navParams.data.customer;
+          this.customer.id =navParams.data.customer_id;
+          this.project = navParams.data.project;
+          this.project.id = navParams.data.project_id;
+        }
+      }
+      this.index();
+    });
+
   }
 
   ionViewDidLoad() {
@@ -67,7 +79,9 @@ export class TasksPage {
           this.loader.dismiss();
         },
         error => {
-console.log(error);          this.loader.dismiss();        },
+          console.log(error);
+          this.loader.dismiss();
+        },
         () => console.log('Projects List Complete')
       );
   }
@@ -130,7 +144,7 @@ console.log(error);          this.loader.dismiss();        },
           this.tasks.splice(this.tasks.findIndex(x => x.id == task.id), 1);
         },
         error => {
-console.log(error);          this.loader.dismiss();        },
+          console.log(error);          this.loader.dismiss();        },
         () => console.log('Task Deleted')
       );
   }

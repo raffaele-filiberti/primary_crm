@@ -21,6 +21,7 @@ export interface PageInterface {
   component: any;
   icon: string;
   role: number;
+  badge?: number;
   logsOut?: boolean;
   segmented?: boolean;
 }
@@ -33,11 +34,13 @@ export class MyApp {
 
   jwtHelper: JwtHelper;
   user: User;
+  agency: any;
+
   pages: PageInterface[] = [
     { title: 'Dashboard', icon: 'clipboard', component: HomePage, role: 6 },
     { title: 'Users', icon: 'contacts', component: UsersTabPage, role: 3},
     { title: 'Customers', icon: 'bookmarks', component: CustomersPage,  role: 3},
-    { title: 'Notifications', icon: 'notifications', component: NotificationsPage,  role: 6},
+    { title: 'Notifications', icon: 'notifications', component: NotificationsPage,  role: 6, badge: 15},
     { title: 'Templates', icon: 'bulb', component: TemplatesPage,  role: 1 }
   ];
 
@@ -67,12 +70,12 @@ export class MyApp {
 
     this.user = new User();
 
-    //try to find user in storage
-    this.storage.get('authUser').then((authUser) => {
-      if(authUser) {
-        this.user = JSON.parse(authUser);
-        console.log(this.user);
-      }
+    Promise.all([
+      this.storage.get('authUser'),
+      this.storage.get('agency'),
+    ]).then(([authUser, agency]) => {
+      this.user = JSON.parse(authUser);
+      this.agency = JSON.parse(agency)
     });
 
     //token check to avoid login each time
@@ -147,27 +150,20 @@ export class MyApp {
             })
           } else {
             this.nav.setRoot(page.component);
-
           }
-
         }
-
       }
-
-
     }
-
-
   }
 
   listenToLoginEvents() {
     this.events.subscribe('user:login', (auth, agency) => {
       this.enableMenu(true);
       this.user = auth;
+      this.agency = agency;
       this.nav.setRoot(HomePage, {
         user: this.user
       });
-
     });
 
     this.events.subscribe('user:logout', () => {

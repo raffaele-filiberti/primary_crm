@@ -1,4 +1,4 @@
-<ion-split-pane>
+<ion-split-pane when="xl">
   <ion-menu id="auth" [content]="content">
 
     <ion-content>
@@ -7,8 +7,8 @@
           <ion-avatar item-start>
             {{ user?.name | avatarfirstchar }}
           </ion-avatar>
-          <h5>{{ user?.name }}</h5>
-          <p>{{ user?.email }}</p>
+          <h3>{{ user?.name }}</h3>
+          <p>{{(user?.customers && user?.customers?.length)? user?.customers[0]?.name : agency?.name }}</p>
         </ion-item>
       </div>
       <ion-list no-lines *ngIf="user?.roles">
@@ -20,6 +20,7 @@
         <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" [hidden]="user?.roles[0]?.id > p.role">
           <ion-icon [name]="p.icon" item-start></ion-icon>
           {{p.title}}
+          <ion-badge [hidden]="!p.badge" item-end>Beta {{p.badge}}</ion-badge>
         </button>
         <button menuClose ion-item *ngFor="let p of customerPages" (click)="openPage(p)" [hidden]="user?.roles[0]?.id != p.role">
           <ion-icon [name]="p.icon" item-start></ion-icon>

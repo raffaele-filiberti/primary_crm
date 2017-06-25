@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { User } from '../../models/User';
 import { Chart } from 'chart.js';
 import {DashboardServiceProvider} from "../../providers/dashboard-service/dashboard-service";
+import { ENV } from '../../enviroments.dev';
 
 @Component({
   selector: 'page-home',
@@ -15,6 +16,7 @@ export class HomePage {
   user: User;
   agency: any;
   loader: any;
+  dev: boolean = ENV.TESINA;
 
   u_labels: any = [];
   u_data:any = [];

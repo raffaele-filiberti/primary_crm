@@ -46,7 +46,7 @@ export class DetailStepTaskDatePage {
     this.dateService.store(this.customer_id, this.project_id, this.task_id, this.detail_step_task.step_task_id, this.detail_step_task.id, this.date.data, this.date.description)
       .subscribe(
         data => {
-          this.events.publish('functionCall:loadDetailStepTasks');
+          this.events.publish('file:store', this.date);
           this.loader.dismiss();
           this.navCtrl.pop();
         },

@@ -6,7 +6,8 @@ import {TasksPage} from "../tasks/tasks";
 import {ProjectsStorePage} from "../projects-store/projects-store";
 import {ProjectsEditPage} from "../projects-edit/projects-edit";
 import {ProjectsViewPage} from "../projects-view/projects-view";
-import {Customer} from "../../models/User";
+import {Customer, User} from "../../models/User";
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the ProjectsPage page.
@@ -30,10 +31,24 @@ export class ProjectsPage {
               public navParams: NavParams,
               public events: Events,
               public loadingCtrl: LoadingController,
+              private storage: Storage,
               private projectsService: ProjectsServiceProvider) {
-    this.customer = navParams.data.customer;
+
+    this.customer = new Customer();
     this.items = new Array<Project>();
-    this.index();
+
+    storage.get('authUser').then(authUser => {
+      if(authUser) {
+        let user:User = JSON.parse(authUser);
+        if(user.customers && user.customers.length) {
+          this.customer = user.customers[0];
+        } else {
+          this.customer = navParams.data.customer;
+          this.customer.id = navParams.data.customer_id;
+        }
+      }
+      this.index();
+    });
   }
 
   ionViewDidLoad() {

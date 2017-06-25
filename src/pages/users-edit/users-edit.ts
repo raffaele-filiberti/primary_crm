@@ -31,12 +31,20 @@ export class UsersEditPage {
               private CustomerService: CustomerServiceProvider,
               private RoleService: RoleServiceProvider,
               public viewCtrl: ViewController) {
-
-    this.user = navParams.get('user');
-    this.presentLoading();
-    this.customerIndex();
-    this.roleIndex();
-    this.loader.dismiss();
+    this.user = new User();
+    this.user = navParams.data.user;
+    this.user.id = navParams.data.id;
+    if(this.user.roles[0].id < 3) {
+      this.presentLoading();
+      Promise.all([
+        this.customerIndex(),
+        this.roleIndex()
+      ]).then(() => {
+        this.loader.dismiss();
+      }).catch(error => {
+        this.loader.dismiss();
+      });
+    }
 
   }
 

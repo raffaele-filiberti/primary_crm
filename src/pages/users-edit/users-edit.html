@@ -29,14 +29,14 @@
       <ion-input [(ngModel)]="user.email" type="email"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item [hidden]="user.roles[0].id > 2">
       <ion-label floating>Customer</ion-label>
       <ion-select [ngModel]="old_customer?.id" (ngModelChange)="addCustomer($event)">
         <ion-option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}</ion-option>
       </ion-select>
     </ion-item>
 
-    <ion-item>
+    <ion-item [hidden]="user.roles[0].id > 2">
       <ion-label floating>Role</ion-label>
       <ion-select [ngModel]="old_role?.id" (ngModelChange)="addRole($event)">
         <ion-option *ngFor="let role of roles" [value]="role.id">{{role.display_name}}</ion-option>
