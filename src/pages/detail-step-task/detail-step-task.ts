@@ -8,7 +8,6 @@ import {FileServiceProvider} from "../../providers/file-service/file-service";
 import {Customer} from "../../models/User";
 import {Project} from "../../models/Project";
 import {Storage} from "@ionic/storage";
-import { ENV } from '../../enviroments.dev';
 import * as AWS from 'aws-sdk';
 
 /**
