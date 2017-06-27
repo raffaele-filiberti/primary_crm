@@ -16,7 +16,7 @@ export class HomePage {
   user: User;
   agency: any;
   loader: any;
-  dev: boolean = ENV.TESINA;
+  dev: boolean = false;
 
   u_labels: any = [];
   u_data:any = [];
@@ -69,6 +69,7 @@ export class HomePage {
 
           console.log(this.u_data, this.u_labels);
           Chart.defaults.global.defaultFontFamily = 'Roboto';
+          Chart.defaults.global.legend.display = false;
           this.userChart = new Chart(this.userCanvas.nativeElement, {
 
             type: 'line',
@@ -164,6 +165,11 @@ export class HomePage {
                   spanGaps: false,
                 },
               ]
+            },
+            options: {
+              legend: {
+                display: false,
+              }
             }
           });
           this.loader.dismiss();
