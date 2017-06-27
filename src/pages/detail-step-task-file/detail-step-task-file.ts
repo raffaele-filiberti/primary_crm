@@ -46,10 +46,6 @@ this.file = new File();
         console.log(bucketname);
 
         this.bucket = new AWS.S3({
-          credentials: {
-            accessKeyId: 'AKIAIRKWKHME2VSQ4AXA',
-            secretAccessKey: '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'
-          },
           signatureVersion: 'v4',
           region: 'us-east-2',
           s3BucketEndpoint: true,
