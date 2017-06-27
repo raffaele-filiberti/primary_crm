@@ -59,8 +59,8 @@ export class DetailStepTaskPage {
         //s3 config
         this.bucket = new AWS.S3({
           credentials: {
-            accessKeyId: ENV.AWS_ACCESS_KEY_ID,
-            secretAccessKey: ENV.AWS_SECRET_ACCESS_KEY
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
           },
           signatureVersion: 'v4',
           region: 'us-east-1',

@@ -35,14 +35,10 @@ export class CustomersStorePage {
       .subscribe(
         data => {
           this.events.publish('functionCall:loadCustomers');
-          this.loader.dismiss();
           this.navCtrl.pop();
-
         },
         error => {
           console.log(error);
-this.loader.dismiss();
-
         },
         () => console.log('Customer Added Successfully')
       )
